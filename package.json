@@ -74,6 +74,7 @@
     "electron-webpack": "2.8.2",
     "electron-webpack-ts": "4.0.1",
     "node-sass": "4.14.0",
+    "rimraf": "3.0.2",
     "sass-loader": "8.0.2",
     "typescript": "3.8.3",
     "webpack": "4.43.0",

@@ -52,6 +52,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-electron-builder-cache-
 
+      - name: Install dependencies
+        run: yarn install
+
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
@@ -62,9 +65,9 @@ jobs:
           # If the commit is tagged with a version (e.g. "v1.0.0"),
           # release the app after building
           release: ${{ startsWith(github.ref, 'refs/tags/v') }}
-          
+
           build_script_name: "compile"
-      
+
       - name: Archive built packages
         uses: actions/upload-artifact@v1
         with:
