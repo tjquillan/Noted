@@ -32,7 +32,8 @@
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
-    }
+    },
+    "afterAllArtifactBuild": "./build/afterAllArtifactBuildHook.js"
   },
   "scripts": {
     "postinstall": "electron-builder install-app-deps",
