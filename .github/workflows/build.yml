@@ -19,10 +19,6 @@ jobs:
         with:
           node-version: 12
 
-      - name: Install rpm for packaging
-        run: sudo apt-get install rpm
-        if: ${{ matrix.os }} is ubuntu-latest
-
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
