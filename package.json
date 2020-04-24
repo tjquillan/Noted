@@ -1,0 +1,72 @@
+{
+  "name": "noted",
+  "version": "0.1.0",
+  "description": "A notetaking app",
+  "homepage": "https://github.com/iboyperson/Noted",
+  "author": {
+    "name": "iboyperson",
+    "email": "tjquillan@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "url": "https://github.com/iboyperson/Noted"
+  },
+  "build": {
+    "appId": "com.iboyperson.noted",
+    "productName": "Noted",
+    "directories": {
+      "output": "releases"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm",
+        "tar.gz"
+      ]
+    }
+  },
+  "scripts": {
+    "postinstall": "electron-builder install-app-deps",
+    "dev": "electron-webpack dev",
+    "compile": "electron-webpack",
+    "dist": "yarn compile && electron-builder",
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
+    "index": "cti ./src/renderer/components/*/"
+  },
+  "dependencies": {
+    "@material-ui/core": "4.9.11",
+    "@material-ui/icons": "4.9.1",
+    "@material-ui/lab": "4.0.0-alpha.50",
+    "better-sqlite3": "6.0.1",
+    "codemirror": "5.53.2",
+    "electron-updater": "4.2.5",
+    "emoji-toolkit": "5.5.0",
+    "katex": "0.11.1",
+    "marked": "1.0.0",
+    "platform-folders": "0.5.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-icons": "3.10.0",
+    "source-map-support": "0.5.18",
+    "vickymd": "0.1.17"
+  },
+  "devDependencies": {
+    "@babel/core": "7.9.0",
+    "@babel/preset-react": "7.9.4",
+    "@types/codemirror": "0.0.91",
+    "@types/markdown-it": "10.0.0",
+    "@types/node": "12.12.37",
+    "@types/react": "16.9.34",
+    "@types/react-dom": "16.9.6",
+    "create-ts-index": "1.12.0",
+    "electron": "8.2.3",
+    "electron-builder": "22.5.1",
+    "electron-webpack": "2.8.2",
+    "electron-webpack-ts": "4.0.1",
+    "node-sass": "4.14.0",
+    "sass-loader": "8.0.2",
+    "typescript": "3.8.3",
+    "webpack": "4.43.0"
+  }
+}

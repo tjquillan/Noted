@@ -1,0 +1,9 @@
+{
+    "extends": "./node_modules/electron-webpack/tsconfig-base.json",
+    "skipLibCheck": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "compilerOptions": {
+        "jsx": "react"
+    }
+}

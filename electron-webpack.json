@@ -1,0 +1,3 @@
+{
+    "whiteListedModules": ["codemirror", "vickymd"]  
+}
