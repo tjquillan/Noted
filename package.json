@@ -38,7 +38,6 @@
     "@material-ui/core": "4.9.11",
     "@material-ui/icons": "4.9.1",
     "@material-ui/lab": "4.0.0-alpha.50",
-    "better-sqlite3": "6.0.1",
     "codemirror": "5.53.2",
     "electron-updater": "4.2.5",
     "emoji-toolkit": "5.5.0",
