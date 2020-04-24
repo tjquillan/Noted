@@ -24,7 +24,7 @@ function rmdir(dirPath) {
 exports.default = function (buildResult) {
   rmdir(path.join(buildResult.outDir, "mac"))
   rmdir(path.join(buildResult.outDir, "linux-unpacked"))
-  rmdir(path.join(buildResult.outDir, "windows-unpacked"))
+  rmdir(path.join(buildResult.outDir, "win-unpacked"))
 
   return []
 }
