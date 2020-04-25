@@ -12,9 +12,9 @@ const CONFIG_HOME = path.join(pfGetConfigHome(), APP_NAME)
 
 /**
  * Return the data home for the current OS.
- * 
+ *
  * This will also create the path if it does not already exist
- * 
+ *
  * @param paths Optional paths inside the data home
  */
 export function getDataHome(...paths: Array<string>): string {
@@ -27,11 +27,15 @@ export function getDataHome(...paths: Array<string>): string {
     return dataHome
 }
 
+export function getNotebooksHome() {
+  return getDataHome("Notebooks")
+}
+
 /**
  * Return the config home for the current OS.
- * 
+ *
  * This will also create the path if it does not already exist
- * 
+ *
  * @param paths Optional paths inside the config home
  */
 export function getConfigHome(...paths: Array<string>): string {

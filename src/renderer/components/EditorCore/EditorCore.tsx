@@ -17,6 +17,9 @@ import React, { useEffect, useRef } from 'react'
 
 import * as VickyMD from 'vickymd'
 
+import 'react-perfect-scrollbar/dist/css/styles.css'
+import PerfectScrollbar from 'react-perfect-scrollbar'
+
 import './EditorCore.css'
 import './hyperMD.css'
 
@@ -61,9 +64,11 @@ export const EditorCore = (props: EditorCoreProps) => {
 
     return (
         <div className="EditorCore">
-            <div className='EditorCoreTextArea-wrapper'>
-                <textarea className="EditorCoreTextArea" ref={textAreaRef} />
-            </div>
+            <PerfectScrollbar>
+              <div className='EditorCoreTextArea-wrapper'>
+                  <textarea className="EditorCoreTextArea" ref={textAreaRef} />
+              </div>
+            </PerfectScrollbar>
         </div>
     )
 }
