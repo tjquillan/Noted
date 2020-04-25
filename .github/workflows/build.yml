@@ -71,5 +71,5 @@ jobs:
       - name: Archive built packages
         uses: actions/upload-artifact@v1
         with:
-          name: releases
+          name: releases-${{ runner.os }}
           path: releases
