@@ -27,7 +27,7 @@ export function getDataHome(...paths: Array<string>): string {
     return dataHome
 }
 
-export function getNotebooksHome() {
+export function getNotebooksHome(): string {
   return getDataHome("Notebooks")
 }
 

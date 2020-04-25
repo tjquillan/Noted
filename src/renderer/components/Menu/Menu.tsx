@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { remote, MenuItem } from 'electron'
+import { remote } from 'electron'
 import { NewNotebookDialog } from '../NewNotebookDialog';
 import { NewNoteDialog } from '../NewNoteDialog';
 import { NotebookSelectDialog } from '../NotebookSelectDialog';
@@ -8,13 +8,14 @@ interface MenuProps {
   setTheme: (darkTheme: boolean) => void
 }
 
-export const Menu = (props: MenuProps) => {
+export const Menu = (props: MenuProps): JSX.Element => {
   const [newNotebookOpen, setNewNotebookOpen] = useState(false)
   const [newNoteOpen, setNewNoteOpen] = useState(false)
   const [notebookSelectOpen, setNotebookSelectOpen] = useState(false)
   const [ darkTheme, setDarkTheme ] = useState(true)
 
   useEffect(() => {
+    const isMac = false
     const menu = remote.Menu.buildFromTemplate([
       {
         label: "File",
@@ -24,13 +25,13 @@ export const Menu = (props: MenuProps) => {
             submenu: [
               {
                 label: "Notebook",
-                click() {
+                click(): void {
                   setNewNotebookOpen(true)
                 }
               },
               {
                 label: "Note",
-                click() {
+                click(): void {
                   setNewNoteOpen(true)
                 }
               }
@@ -41,12 +42,14 @@ export const Menu = (props: MenuProps) => {
             submenu: [
               {
                 label: "Notebook",
-                click() {
+                click(): void {
                   setNotebookSelectOpen(true)
                 }
               }
             ]
-          }
+          },
+          { type: 'separator' },
+          isMac ? { role: 'close' } : { role: 'quit' }
         ]
       },
       {
@@ -89,7 +92,7 @@ export const Menu = (props: MenuProps) => {
                 label: "Dark",
                 type: "checkbox",
                 checked: darkTheme,
-                click() {
+                click(): void {
                   setDarkTheme(true)
                   props.setTheme(true)
                 }
@@ -98,13 +101,21 @@ export const Menu = (props: MenuProps) => {
                 label: "Light",
                 type: "checkbox",
                 checked: !darkTheme,
-                click() {
+                click(): void {
                   setDarkTheme(false)
                   props.setTheme(false)
                 }
               }
             ]
-          }
+          },
+          ...(isMac ? [
+            { type: 'separator' as 'separator'},
+            { role: 'front' as 'front' },
+            { type: 'separator' as 'separator' },
+            { role: 'window' as 'window'},
+          ] : [
+            { role: 'close' as 'close' }
+          ])
         ]
       }
     ])

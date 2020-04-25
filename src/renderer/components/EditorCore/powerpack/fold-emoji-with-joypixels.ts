@@ -5,7 +5,7 @@ import { defaultOption, EmojiChecker, EmojiRenderer } from 'vickymd/addon/fold-e
 
 export const joypixelsChecker: EmojiChecker = (text) => joypixels.shortnameToUnicode(text) !== text;
 export const joypixelsRenderer: EmojiRenderer = (text): HTMLElement => {
-    var html = joypixels.shortnameToImage(text)
+    const html = joypixels.shortnameToImage(text)
     return document.createRange().createContextualFragment(html).firstChild as HTMLImageElement
 }
 

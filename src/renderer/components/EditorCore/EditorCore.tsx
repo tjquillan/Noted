@@ -51,12 +51,12 @@ interface EditorCoreProps {
     initialValue?: string
 }
 
-export const EditorCore = (props: EditorCoreProps) => {
+export const EditorCore = (props: EditorCoreProps): JSX.Element => {
     const textAreaRef = useRef<HTMLTextAreaElement>(null)
 
     useEffect(() => {
         if (textAreaRef.current) {
-            let editor = VickyMD.fromTextArea(textAreaRef.current, EDITOR_OPTIONS)
+            const editor = VickyMD.fromTextArea(textAreaRef.current, EDITOR_OPTIONS)
             editor.setSize(null, '100%')
             editor.setValue(props.initialValue || "")
         }

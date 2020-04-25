@@ -15,13 +15,13 @@ interface NewNoteDialogProps {
 export const NewNoteDialog = (props: NewNoteDialogProps): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>()
 
-  const handleClose = () => {
+  function onClose(): void {
     props.setOpen(false)
   }
 
-  const handleCreate = () => {
+  function onCreate(): void {
     if (inputRef.current?.value) {
-      handleClose()
+      onClose()
       // const notebookName = inputRef.current?.value as string
 
       // fs.writeFile(path.join(getNotebooksHome()))
@@ -29,7 +29,7 @@ export const NewNoteDialog = (props: NewNoteDialogProps): JSX.Element => {
   }
 
   return (
-    <Dialog open={props.open} onClose={handleClose} aria-labelledby="form-dialog-title">
+    <Dialog open={props.open} onClose={onClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Create Note</DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -47,7 +47,7 @@ export const NewNoteDialog = (props: NewNoteDialogProps): JSX.Element => {
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleCreate} color="primary">
+        <Button onClick={onCreate} color="primary">
           Create
         </Button>
       </DialogActions>

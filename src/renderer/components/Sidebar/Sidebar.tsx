@@ -13,18 +13,17 @@ import * as path from 'path'
 import * as fs from 'fs'
 
 // import './Sidebar.css'
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
-import Paper from '@material-ui/core/Paper';
 
 const DATA_HOME = getNotebooksHome()
 
-function getNotebookTreeNodes(nodePath?: string) {
+function getNotebookTreeNodes(nodePath?: string): Array<TreeNode> {
   const dirPath = nodePath ? nodePath : DATA_HOME
   const dirContents = fs.readdirSync(dirPath)
 
-  let children: Array<TreeNode> = []
+  const children: Array<TreeNode> = []
   dirContents.forEach((item: string) => {
     const itemPath = path.join(dirPath, item)
     const isDir = fs.lstatSync(itemPath).isDirectory()
@@ -39,7 +38,7 @@ function getNotebookTreeNodes(nodePath?: string) {
 }
 
 const drawerWidth = '175px'
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     drawer: {
       position: "absolute",

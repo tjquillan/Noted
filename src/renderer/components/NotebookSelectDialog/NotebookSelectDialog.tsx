@@ -17,9 +17,9 @@ interface NotebookSelectDialogProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-function renderNotebooks(onClose: () => void) {
+function renderNotebooks(onClose: () => void): Array<JSX.Element> {
   const notebookHome = getNotebooksHome()
-  let notebooks: Array<JSX.Element> = []
+  const notebooks: Array<JSX.Element> = []
   fs.readdirSync(notebookHome)
     .filter((item) => fs.lstatSync(path.join(notebookHome, item)).isDirectory())
     .forEach((item) => {
@@ -38,7 +38,7 @@ function renderNotebooks(onClose: () => void) {
 }
 
 export const NotebookSelectDialog = (props: NotebookSelectDialogProps): JSX.Element => {
-  function onClose() {
+  function onClose(): void {
     props.setOpen(false)
   }
 

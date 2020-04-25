@@ -24,7 +24,7 @@ function getNodeId(node: TreeNode): string {
 
 }
 
-function renderTree(props: TreeProps, childNode?: TreeNode) {
+function renderTree(props: TreeProps, childNode?: TreeNode): JSX.Element {
   const node = childNode ? childNode : props.nodes
   const id = getNodeId(node)
 
@@ -54,11 +54,11 @@ export const Tree = (props: TreeProps): JSX.Element => {
   const [expanded, setExpanded] = useState<Array<string>>([])
   const [selected, setSelected] = useState<Array<string>>([])
 
-  const handleToggle = (event: React.ChangeEvent<{}>, nodeIds: string[]) => {
+  function onToggle(event: React.ChangeEvent<{}>, nodeIds: string[]): void {
     setExpanded(nodeIds)
   }
 
-  const handleSelect = (event: React.ChangeEvent<{}>, nodeIds: string[]) => {
+  function onSelect(event: React.ChangeEvent<{}>, nodeIds: string[]): void {
     // When there is only one selcted we get passed a string for some reason
     const id = typeof nodeIds === 'string' ? nodeIds : nodeIds[0]
     if (id.startsWith('item-')) {
@@ -73,8 +73,8 @@ export const Tree = (props: TreeProps): JSX.Element => {
       defaultExpandIcon={<ChevronRightIcon />}
       expanded={expanded}
       selected={selected}
-      onNodeToggle={handleToggle}
-      onNodeSelect={handleSelect}
+      onNodeToggle={onToggle}
+      onNodeSelect={onSelect}
     >
       {renderTree(props)}
     </TreeView>

@@ -17,14 +17,14 @@ app.allowRendererProcessReuse = true
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow: BrowserWindow | null
 
-function createMainWindow() {
+function createMainWindow(): BrowserWindow {
   const window = new BrowserWindow({
-    width: 1280,
-    height: 720,
     webPreferences: {
       nodeIntegration: true
     }
   })
+
+  window.maximize()
 
   if (isDevelopment) {
     window.webContents.openDevTools()
