@@ -52,9 +52,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-electron-builder-cache-
 
-      - name: Install dependencies
-        run: yarn install
-
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         with:
