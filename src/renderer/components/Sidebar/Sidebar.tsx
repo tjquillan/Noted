@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Tree, TreeNode } from '../Tree';
-
-import { getNotebooksHome } from '../../util/paths';
 
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import BookIcon from '@material-ui/icons/Book';
@@ -9,33 +7,25 @@ import DescriptionIcon from '@material-ui/icons/Description';
 
 import { FaSlackHash } from 'react-icons/fa';
 
-import * as path from 'path'
-import * as fs from 'fs'
-
 // import './Sidebar.css'
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Divider from '@material-ui/core/Divider';
+import { NotebookProvider } from '../App/App';
+import { Notebook } from '../../util/Notebook';
 
-const DATA_HOME = getNotebooksHome()
-
-function getNotebookTreeNodes(nodePath?: string): Array<TreeNode> {
-  const dirPath = nodePath ? nodePath : DATA_HOME
-  const dirContents = fs.readdirSync(dirPath)
-
+function getNoteTreeNodes(notebook: Notebook | null): Array<TreeNode> {
   const children: Array<TreeNode> = []
-  dirContents.forEach((item: string) => {
-    const itemPath = path.join(dirPath, item)
-    const isDir = fs.lstatSync(itemPath).isDirectory()
+  notebook?.getNotes().forEach((item: string) => {
     children.push({
       id: item.toLowerCase(),
       name: item,
-      children: isDir ? getNotebookTreeNodes(itemPath) : undefined
     })
   })
 
   return children
 }
+
 
 const drawerWidth = '175px'
 const useStyles = makeStyles(() =>
@@ -54,16 +44,28 @@ const useStyles = makeStyles(() =>
 )
 
 export const Sidebar = (): JSX.Element => {
+  // This component wont render if the context is null so we can safely cast it
+  const notebook = useContext(NotebookProvider) as Notebook
+
   const classes = useStyles()
-  const [notebookData,] = useState<TreeNode>({
+  const [notes, setNotes] = useState<Array<TreeNode>>(getNoteTreeNodes(notebook));
+
+  useEffect(() => {
+    notebook.addNotesHook('add', () => setNotes(getNoteTreeNodes(notebook)))
+  }, [])
+
+  const [tags,] = useState<Array<TreeNode>>([]);
+
+  const notebookData = {
     id: 'root',
-    name: 'Notebooks',
-    children: getNotebookTreeNodes()
-  });
-  const [tagData,] = useState<TreeNode>({
+    name: 'Notes',
+    children: notes
+  }
+  const tagData = {
     id: 'root',
     name: 'Tags',
-  });
+    children: tags
+  }
 
   return (
     <>

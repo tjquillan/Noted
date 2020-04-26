@@ -7,24 +7,21 @@ import ListItemText from '@material-ui/core/ListItemText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import BookIcon from '@material-ui/icons/Book';
-
-import * as path from 'path'
-import * as fs from 'fs'
-import { getNotebooksHome } from '../../util/paths';
+import { Notebook } from '../../util/Notebook';
 
 interface NotebookSelectDialogProps {
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  onSelect: (notebook: string) => void
 }
 
-function renderNotebooks(onClose: () => void): Array<JSX.Element> {
-  const notebookHome = getNotebooksHome()
+function renderNotebooks(onSelect: (notebook: string) => void): Array<JSX.Element> {
   const notebooks: Array<JSX.Element> = []
-  fs.readdirSync(notebookHome)
-    .filter((item) => fs.lstatSync(path.join(notebookHome, item)).isDirectory())
+
+  Notebook.getNotebooks()
     .forEach((item) => {
       notebooks.push(
-        <ListItem button onClick={onClose} key={item}>
+        <ListItem button onClick={(): void => onSelect(item)} key={item}>
           <ListItemAvatar>
             <Avatar>
               <BookIcon/>
@@ -42,11 +39,16 @@ export const NotebookSelectDialog = (props: NotebookSelectDialogProps): JSX.Elem
     props.setOpen(false)
   }
 
+  function onSelect(notebook: string): void {
+    onClose()
+    props.onSelect(notebook)
+  }
+
   return (
     <Dialog open={props.open} onClose={onClose} aria-labelledby="simple-dialog-title">
       <DialogTitle id="simple-dialog-title">Select Notebook</DialogTitle>
       <List>
-        {renderNotebooks(onClose)}
+        {renderNotebooks(onSelect)}
       </List>
     </Dialog>
   )

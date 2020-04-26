@@ -1,18 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { remote } from 'electron'
 import { NewNotebookDialog } from '../NewNotebookDialog';
 import { NewNoteDialog } from '../NewNoteDialog';
 import { NotebookSelectDialog } from '../NotebookSelectDialog';
+import { Theme } from '../../types';
+import { Notebook } from '../../util/Notebook';
+import { NotebookProvider } from '../App/App';
+import { Settings } from '../../util/Settings';
 
 interface MenuProps {
-  setTheme: (darkTheme: boolean) => void
+  theme: Theme
+  setTheme: (theme: Theme) => void
+  setNotebook: React.Dispatch<React.SetStateAction<Notebook | null>>
 }
 
 export const Menu = (props: MenuProps): JSX.Element => {
+  const notebook = useContext(NotebookProvider)
   const [newNotebookOpen, setNewNotebookOpen] = useState(false)
   const [newNoteOpen, setNewNoteOpen] = useState(false)
   const [notebookSelectOpen, setNotebookSelectOpen] = useState(false)
-  const [ darkTheme, setDarkTheme ] = useState(true)
 
   useEffect(() => {
     const isMac = false
@@ -33,7 +39,8 @@ export const Menu = (props: MenuProps): JSX.Element => {
                 label: "Note",
                 click(): void {
                   setNewNoteOpen(true)
-                }
+                },
+                visible: notebook !== null
               }
             ]
           },
@@ -91,19 +98,17 @@ export const Menu = (props: MenuProps): JSX.Element => {
               {
                 label: "Dark",
                 type: "checkbox",
-                checked: darkTheme,
+                checked: props.theme === 'dark',
                 click(): void {
-                  setDarkTheme(true)
-                  props.setTheme(true)
+                  props.setTheme('dark')
                 }
               },
               {
                 label: "Light",
                 type: "checkbox",
-                checked: !darkTheme,
+                checked: props.theme === 'light',
                 click(): void {
-                  setDarkTheme(false)
-                  props.setTheme(false)
+                  props.setTheme('light')
                 }
               }
             ]
@@ -121,13 +126,18 @@ export const Menu = (props: MenuProps): JSX.Element => {
     ])
 
     remote.Menu.setApplicationMenu(menu)
-  }, [darkTheme])
+  }, [props.theme, notebook])
+
+  function setNotebok(notebook: string): void {
+    props.setNotebook(new Notebook(notebook))
+    Settings.getInstance().setCurrentNotebook(notebook)
+  }
 
   return (
     <>
       <NewNotebookDialog open={newNotebookOpen} setOpen={setNewNotebookOpen}/>
-      <NewNoteDialog open={newNoteOpen} setOpen={setNewNoteOpen}/>
-      <NotebookSelectDialog open={notebookSelectOpen} setOpen={setNotebookSelectOpen}/>
+      {notebook ? <NewNoteDialog open={newNoteOpen} setOpen={setNewNoteOpen}/> : null}
+      <NotebookSelectDialog onSelect={setNotebok} open={notebookSelectOpen} setOpen={setNotebookSelectOpen}/>
     </>
   )
 }

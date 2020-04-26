@@ -6,9 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { getNotebooksHome } from '../../util/paths';
-import {promises as fs} from 'fs'
-import * as path from 'path';
+import { Notebook } from '../../util/Notebook';
 
 interface NewNotebookDialogProps {
   open: boolean
@@ -27,7 +25,7 @@ export const NewNotebookDialog = (props: NewNotebookDialogProps): JSX.Element =>
       onClose()
       const notebookName = inputRef.current?.value as string
 
-      fs.mkdir(path.join(getNotebooksHome(), notebookName))
+      Notebook.createNotebook(notebookName)
     }
   }
 
