@@ -46,10 +46,10 @@
     "deduplicate": "yarn-deduplicate yarn.lock"
   },
   "dependencies": {
-    "@material-ui/core": "4.9.11",
+    "@material-ui/core": "4.9.12",
     "@material-ui/icons": "4.9.1",
-    "@material-ui/lab": "4.0.0-alpha.50",
-    "chokidar": "3.3.1",
+    "@material-ui/lab": "4.0.0-alpha.51",
+    "chokidar": "3.4.0",
     "codemirror": "5.53.2",
     "electron-updater": "4.2.5",
     "emoji-toolkit": "5.5.0",
