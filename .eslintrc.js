@@ -23,6 +23,7 @@ module.exports = {
     "@typescript-eslint/semi": ["off"],
     "@typescript-eslint/member-delimiter-style": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
-    "@typescript-eslint/no-empty-function": "off"
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-var-requires": "off"
   },
 };
