@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useCallback } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -16,18 +16,18 @@ interface NewNotebookDialogProps {
 export const NewNotebookDialog = (props: NewNotebookDialogProps): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>()
 
-  function onClose(): void {
+  const onClose = useCallback(() => {
     props.setOpen(false);
-  }
+  }, [props.setOpen])
 
-  function onCreate(): void {
+  const onCreate = useCallback(() => {
     if (inputRef.current?.value) {
       onClose()
       const notebookName = inputRef.current?.value as string
 
       Notebook.createNotebook(notebookName)
     }
-  }
+  }, [inputRef])
 
   return (
     <Dialog open={props.open} onClose={onClose} aria-labelledby="form-dialog-title">

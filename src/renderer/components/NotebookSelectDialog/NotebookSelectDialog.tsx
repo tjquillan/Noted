@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -35,14 +35,14 @@ function renderNotebooks(onSelect: (notebook: string) => void): Array<JSX.Elemen
 }
 
 export const NotebookSelectDialog = (props: NotebookSelectDialogProps): JSX.Element => {
-  function onClose(): void {
+  const onClose = useCallback(() => {
     props.setOpen(false)
-  }
+  }, [props.setOpen])
 
-  function onSelect(notebook: string): void {
+  const onSelect = useCallback((notebook: string) => {
     onClose()
     props.onSelect(notebook)
-  }
+  }, [props.onSelect])
 
   return (
     <Dialog open={props.open} onClose={onClose} aria-labelledby="simple-dialog-title">
