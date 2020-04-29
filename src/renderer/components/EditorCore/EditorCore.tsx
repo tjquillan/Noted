@@ -13,15 +13,18 @@ import 'vickymd/powerpack/fold-code-with-wavedrom'
 import 'vickymd/powerpack/hover-with-marked'
 import './powerpack/fold-emoji-with-joypixels'
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useContext, useState, useCallback } from 'react'
 
-import * as VickyMD from 'vickymd'
+import * as VickyMD from 'vickymd/core'
 
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 import './EditorCore.css'
-import './hyperMD.css'
+import { NoteProvider } from '../App'
+import { Editor } from 'codemirror'
+import { useStyles } from './style'
+import { ThemeProvider, ThemeContext } from '../ThemeProvider/ThemeProvider'
 
 // Set necessary window scope variables
 // Gotten from: https://github.com/0xGG/crossnote/blob/32a4af1878b79bb8841f8a3d3f45ca50982455be/src/editor/index.ts#L41
@@ -29,46 +32,64 @@ import './hyperMD.css'
 window["CodeMirror"] = require("codemirror");
 
 const EDITOR_OPTIONS = {
-    mode: {
-        name: "hypermd",
-        hashtag: true
-    },
-    hmdFold: {
-        image: true,
-        link: true,
-        math: true,
-        html: true,
-        emoji: true,
-        code: true
-    },
-    hmdFoldCode: {
-        flowchart: true,
-        mermaid: true,
+  mode: {
+    name: "hypermd",
+    hashtag: true
+  },
+  hmdFold: {
+    image: true,
+    link: true,
+    math: true,
+    html: true,
+    emoji: true,
+    code: true
+  },
+  hmdFoldCode: {
+    flowchart: true,
+    mermaid: true,
+  }
+}
+
+export const EditorCore = (): JSX.Element => {
+  const [theme] = useContext(ThemeProvider) as ThemeContext
+  const note = useContext(NoteProvider)
+  const textAreaRef = useRef<HTMLTextAreaElement>(null)
+  const [editor, setEditor] = useState<Editor | null>(null)
+
+  const classes = useStyles()
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      const editor = VickyMD.fromTextArea(textAreaRef.current, EDITOR_OPTIONS)
+      editor.setSize(null, '100%')
+      editor.setOption("lineNumbers", false)
+      editor.setOption("foldGutter", false)
+      setEditor(editor)
     }
-}
+  }, [])
 
-interface EditorCoreProps {
-    initialValue?: string
-}
+  const setValue = useCallback((instance: Editor) => {
+    note?.setBufferedContents(instance.getValue())
+  }, [note])
 
-export const EditorCore = (props: EditorCoreProps): JSX.Element => {
-    const textAreaRef = useRef<HTMLTextAreaElement>(null)
+  useEffect(() => {
+    editor?.setValue(note?.getCurrentFileContents() || "")
+    editor?.on('change', setValue)
+  }, [editor, note, setValue])
 
-    useEffect(() => {
-        if (textAreaRef.current) {
-            const editor = VickyMD.fromTextArea(textAreaRef.current, EDITOR_OPTIONS)
-            editor.setSize(null, '100%')
-            editor.setValue(props.initialValue || "")
-        }
-    }, [props.initialValue])
+  useEffect(() => {
+    if (editor) {
+      theme.themeEditor(editor)
+    }
+  }, [editor, theme])
 
-    return (
-        <div className="EditorCore">
-            <PerfectScrollbar>
-              <div className='EditorCoreTextArea-wrapper'>
-                  <textarea className="EditorCoreTextArea" ref={textAreaRef} />
-              </div>
-            </PerfectScrollbar>
+  return (
+    <div className="EditorCore">
+      <PerfectScrollbar>
+        <div className={classes.editorWrapper}>
+          <textarea className={classes.editor} ref={textAreaRef} />
         </div>
-    )
+      </PerfectScrollbar>
+    </div>
+  )
 }

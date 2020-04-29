@@ -1,3 +1,6 @@
 {
-    "whiteListedModules": ["codemirror", "vickymd"]  
+    "whiteListedModules": ["codemirror", "vickymd"],
+    "renderer": {
+      "webpackConfig": "config/webpack.renderer.additions.js"
+    }
 }

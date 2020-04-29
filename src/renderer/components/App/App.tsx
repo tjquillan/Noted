@@ -1,52 +1,58 @@
-import React, { useState, createContext } from 'react';
+import React, { useState, createContext, useMemo, useCallback } from 'react';
 import { EditorCore } from '../EditorCore';
 import { Sidebar } from '../Sidebar';
 import { Menu } from '../Menu';
-import { ThemeProvider } from '@material-ui/core/styles';
-import { getTheme } from '../../util/themes';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Theme } from '../../types';
 import { Settings } from '../../util/Settings';
 import { Notebook } from '../../util/Notebook';
+import { Note } from '../../util/Note';
+import { ThemeManager } from '../ThemeProvider/ThemeProvider';
 
 export const NotebookProvider = createContext<Notebook | null>(null)
+export const NoteProvider = createContext<Note | null>(null)
 
 export const App = (): JSX.Element => {
-  const settings = Settings.getInstance()
-  const [theme, setThemeState] = useState<Theme>(settings.getTheme())
+  const settings = useMemo(() => Settings.getInstance(), [])
 
   const currentNotebook = settings.getCurrentNotebook()
-  const [ notebook, setNotebook ] = useState<Notebook | null>(currentNotebook ? new Notebook(currentNotebook) : null)
+  const [notebook, setNotebookState] = useState<Notebook | null>(currentNotebook ? new Notebook(currentNotebook) : null)
 
-  function setTheme(theme: Theme): void {
-    setThemeState(theme)
-    settings.setTheme(theme)
-  }
+  const setNotebook = useCallback((notebook: string) => {
+    setNotebookState(new Notebook(notebook))
+    settings.setCurrentNotebook(notebook)
+  }, [settings])
 
-  function renderMainView(): JSX.Element {
+  const [note, setNoteState] = useState<Note | null>(null)
+
+  const setNote = useCallback((newNote: Note) => {
+    note?.save()
+    setNoteState(newNote)
+  }, [note])
+
+  const mainView = useMemo(() => {
     if (notebook) {
       return (
-        <>
-          <Sidebar />
+        <NoteProvider.Provider value={note}>
+          <Sidebar setNote={setNote} />
           <EditorCore />
-        </>
+        </NoteProvider.Provider>
       )
     } else {
       return (
         <text>Please Open A Notebook</text>
       )
     }
-  }
+  }, [notebook, note, setNote])
 
   return (
-    <div className="App">
-      <ThemeProvider theme={getTheme(theme)}>
+    <ThemeManager>
+      <div className="App">
         <CssBaseline />
         <NotebookProvider.Provider value={notebook}>
-          <Menu setNotebook={setNotebook} theme={theme} setTheme={setTheme}/>
-          {renderMainView()}
+          <Menu setNotebook={setNotebook} />
+          {mainView}
         </NotebookProvider.Provider>
-      </ThemeProvider>
-    </div>
+      </div>
+    </ThemeManager>
   )
 }

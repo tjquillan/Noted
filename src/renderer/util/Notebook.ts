@@ -2,6 +2,7 @@ import * as path from 'path';
 import { getNotebooksHome } from './paths';
 import * as fs from 'fs';
 import { watch } from 'chokidar';
+import { Note } from './Note';
 
 type WatcherHook = (path: string) => void
 
@@ -63,11 +64,8 @@ export class Notebook {
     return this.notes
   }
 
-  public getNote(name: string): string | null {
-    if (!this.notes.includes(name)) {
-      return null
-    }
-    return fs.readFileSync(path.join(this.path, `${name}.md`)).toString()
+  public getNote(name: string): Note {
+    return new Note(path.join(this.path, `${name}.md`))
   }
 
   public addTag(tag: string, note: string): void {

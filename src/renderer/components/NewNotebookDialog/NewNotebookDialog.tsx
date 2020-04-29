@@ -16,9 +16,10 @@ interface NewNotebookDialogProps {
 export const NewNotebookDialog = (props: NewNotebookDialogProps): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>()
 
+  const setOpen = props.setOpen
   const onClose = useCallback(() => {
-    props.setOpen(false);
-  }, [props.setOpen])
+    setOpen(false);
+  }, [setOpen])
 
   const onCreate = useCallback(() => {
     if (inputRef.current?.value) {
@@ -27,7 +28,7 @@ export const NewNotebookDialog = (props: NewNotebookDialogProps): JSX.Element =>
 
       Notebook.createNotebook(notebookName)
     }
-  }, [inputRef])
+  }, [onClose])
 
   return (
     <Dialog open={props.open} onClose={onClose} aria-labelledby="form-dialog-title">

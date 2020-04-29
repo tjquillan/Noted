@@ -34,21 +34,21 @@ function renderNotebooks(onSelect: (notebook: string) => void): Array<JSX.Elemen
     return notebooks
 }
 
-export const NotebookSelectDialog = (props: NotebookSelectDialogProps): JSX.Element => {
+export const NotebookSelectDialog = ({open, setOpen, onSelect}: NotebookSelectDialogProps): JSX.Element => {
   const onClose = useCallback(() => {
-    props.setOpen(false)
-  }, [props.setOpen])
+    setOpen(false)
+  }, [setOpen])
 
-  const onSelect = useCallback((notebook: string) => {
+  const _onSelect = useCallback((notebook: string) => {
     onClose()
-    props.onSelect(notebook)
-  }, [props.onSelect])
+    onSelect(notebook)
+  }, [onClose, onSelect])
 
   return (
-    <Dialog open={props.open} onClose={onClose} aria-labelledby="simple-dialog-title">
+    <Dialog open={open} onClose={onClose} aria-labelledby="simple-dialog-title">
       <DialogTitle id="simple-dialog-title">Select Notebook</DialogTitle>
       <List>
-        {renderNotebooks(onSelect)}
+        {renderNotebooks(_onSelect)}
       </List>
     </Dialog>
   )

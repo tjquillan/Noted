@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { NotebookProvider } from "../App";
 import { Notebook } from "../../util/Notebook";
 import Drawer from "@material-ui/core/Drawer";
-import Divider from "@material-ui/core/Divider";
+import { Note } from "../../util/Note";
 
 const drawerWidth = '175px'
 const useStyles = makeStyles(() =>
@@ -33,15 +33,19 @@ type icon = { icon: JSX.Element } | {
 
 function renderTree(items: Array<string>, icon?: icon, isNotes?: boolean): Array<JSX.Element> {
   return items.map<JSX.Element>((item: string) => <TreeItem key={item}
-                                                            nodeId={`${isNotes ? "note-" : ""}${item}`}
-                                                            label={item} {...icon}/>)
+    nodeId={`${isNotes ? "note-" : ""}${item}`}
+    label={item} {...icon} />)
 }
 
-export const Sidebar = (): JSX.Element => {
+interface SidebarProps {
+  setNote: (note: Note) => void
+}
+
+export const Sidebar = ({ setNote }: SidebarProps): JSX.Element => {
   // This component wont render if the context is null so we can safely cast it
   const notebook = useContext(NotebookProvider) as Notebook
 
-  const getNotes = useCallback(() => renderTree(notebook.getNotes(), {icon: <DescriptionIcon/>}), [])
+  const getNotes = useCallback(() => renderTree(notebook.getNotes(), { icon: <DescriptionIcon /> }, true), [notebook])
 
   const [notes, setNotes] = useState<Array<JSX.Element>>(getNotes())
 
@@ -49,49 +53,51 @@ export const Sidebar = (): JSX.Element => {
     notebook.addNotesHook('add', () => {
       setNotes(getNotes())
     })
-  }, [])
+  }, [getNotes, notebook])
 
   const [selected, setSelected] = useState<Array<string>>([])
 
-  const onSelect = useCallback((event: React.ChangeEvent<{}>, nodeIds: string[]) => {
+  const onSelect = useCallback((event: React.ChangeEvent<{}>, nodeIds: string[] | string) => {
     // As we dont have multiSelect enabled according to the API this will be a string
     // so we cast as the types dont represent this
     // See: https://material-ui.com/api/tree-view/
     const id = nodeIds as unknown as string
-    if (id.startsWith('note-')) {
-      setSelected(nodeIds)
-      const noteName = id.split("-")[1]
-      console.log(noteName)
-    }
 
-  }, [])
+    if (id.startsWith('note-') && selected[0] !== id) {
+      const noteName = id.split("-")[1]
+      setNote(notebook.getNote(noteName))
+
+      if (typeof nodeIds === 'string') {
+        setSelected([nodeIds])
+      } else {
+        setSelected(nodeIds)
+      }
+    }
+  }, [notebook, selected, setNote])
 
   const classes = useStyles()
 
   // TODO: Add tags tree
   return (
-    <>
-      <Drawer variant="permanent"
-        anchor="left"
-        className={classes.drawer}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
+    <Drawer variant="permanent"
+      anchor="left"
+      className={classes.drawer}
+      classes={{
+        paper: classes.drawerPaper,
+      }}
+    >
+      <TreeView
+        defaultCollapseIcon={<ExpandMoreIcon />}
+        defaultExpandIcon={<ChevronRightIcon />}
+        selected={selected}
+        onNodeSelect={onSelect}
       >
-        <TreeView
-          defaultCollapseIcon={<ExpandMoreIcon/>}
-          defaultExpandIcon={<ChevronRightIcon/>}
-          selected={selected}
-          onNodeSelect={onSelect}
-        >
-          <TreeItem nodeId="notes" label="Notes">
-            {notes}
-          </TreeItem>
-          {/* <TreeItem nodeId="tags" label="Tags">
+        <TreeItem nodeId="notes" label="Notes">
+          {notes}
+        </TreeItem>
+        {/* <TreeItem nodeId="tags" label="Tags">
           </TreeItem> */}
-        </TreeView>
-      </Drawer>
-      <Divider orientation="vertical"/>
-    </>
+      </TreeView>
+    </Drawer>
   )
 }

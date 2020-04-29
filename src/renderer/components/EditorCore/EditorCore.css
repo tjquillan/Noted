@@ -4,7 +4,7 @@
   left: 175px;
   right: 0;
   height: 100%;
-  background: rgb(247,247,247);
+  border-radius: 0;
 }
 
 .EditorCoreTextArea-wrapper {
@@ -13,3 +13,7 @@
   margin: 0px auto;
   padding: 0px 5px 0px 0px;
 }
+
+/* .CodeMirror .CodeMirror-cursor {
+  border-left: 2px solid blue;
+} */

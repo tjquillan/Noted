@@ -19,9 +19,10 @@ export const NewNoteDialog = (props: NewNoteDialogProps): JSX.Element => {
   const notebook = useContext(NotebookProvider) as Notebook
   const inputRef = useRef<HTMLInputElement>()
 
+  const setOpen = props.setOpen
   const onClose = useCallback(() => {
-    props.setOpen(false);
-  }, [props.setOpen])
+    setOpen(false);
+  }, [setOpen])
 
   const onCreate = useCallback(() => {
     const value = inputRef.current?.value
@@ -30,7 +31,7 @@ export const NewNoteDialog = (props: NewNoteDialogProps): JSX.Element => {
       onClose()
       notebook.createNote(value)
     }
-  }, [inputRef, notebook])
+  }, [inputRef, notebook, onClose])
 
   return (
     <Dialog open={props.open} onClose={onClose} aria-labelledby="form-dialog-title">

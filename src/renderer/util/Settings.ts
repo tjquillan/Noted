@@ -1,12 +1,12 @@
 import { getConfigHome } from './paths';
 import * as fs from 'fs';
 import * as path from 'path';
-import { Theme } from '../types';
+import { ThemeName } from 'vickymd/theme';
 
 const CONFIG_FILE = 'settings.json'
 
 interface SettingsItems {
-  theme: Theme
+  theme: ThemeName
   currentNotebook: string | null
 }
 
@@ -32,11 +32,11 @@ export class Settings {
     return this.instance
   }
 
-  public getTheme(): Theme {
-    return this.settings.theme || 'dark'
+  public getTheme(): ThemeName {
+    return this.settings.theme || 'one-dark'
   }
 
-  public setTheme(theme: Theme): void {
+  public setTheme(theme: ThemeName): void {
     this.settings.theme = theme
     this.saveSettings()
   }
