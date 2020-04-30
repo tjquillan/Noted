@@ -1,5 +1,5 @@
 import React, { useState, createContext, useMemo, useCallback } from 'react';
-import { EditorCore } from '../EditorCore';
+import { Editor } from '../Editor';
 import { Sidebar } from '../Sidebar';
 import { Menu } from '../Menu';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -33,23 +33,26 @@ export const App = (): JSX.Element => {
     if (notebook) {
       return (
         <NoteProvider.Provider value={note}>
+          <Menu setNotebook={setNotebook} />
           <Sidebar setNote={setNote} />
-          <EditorCore />
+          <Editor />
         </NoteProvider.Provider>
       )
     } else {
       return (
-        <text>Please Open A Notebook</text>
+        <>
+          <Menu setNotebook={setNotebook} />
+          <text>Please Open A Notebook</text>
+        </>
       )
     }
-  }, [notebook, note, setNote])
+  }, [notebook, note, setNotebook, setNote])
 
   return (
     <ThemeManager>
       <div className="App">
         <CssBaseline />
         <NotebookProvider.Provider value={notebook}>
-          <Menu setNotebook={setNotebook} />
           {mainView}
         </NotebookProvider.Provider>
       </div>

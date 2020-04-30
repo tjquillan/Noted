@@ -3,7 +3,7 @@ import { remote } from 'electron'
 import { NewNotebookDialog } from '../NewNotebookDialog';
 import { NewNoteDialog } from '../NewNoteDialog';
 import { NotebookSelectDialog } from '../NotebookSelectDialog';
-import { NotebookProvider } from '../App/App';
+import { NotebookProvider, NoteProvider } from '../App/App';
 import { ThemeProvider, ThemeContext } from '../ThemeProvider/ThemeProvider';
 import { ThemeIndex } from '../../theme/ThemeIndex';
 
@@ -14,6 +14,7 @@ interface MenuProps {
 export const Menu = (props: MenuProps): JSX.Element => {
   const [selectedTheme, setSelectedTheme] = useContext(ThemeProvider) as ThemeContext
   const notebook = useContext(NotebookProvider)
+  const note = useContext(NoteProvider)
   const [newNotebookOpen, setNewNotebookOpen] = useState(false)
   const [newNoteOpen, setNewNoteOpen] = useState(false)
   const [notebookSelectOpen, setNotebookSelectOpen] = useState(false)
@@ -49,9 +50,18 @@ export const Menu = (props: MenuProps): JSX.Element => {
                 label: "Notebook",
                 click(): void {
                   setNotebookSelectOpen(true)
-                }
+                },
               }
             ]
+          },
+          { type: 'separator' },
+          {
+            label: "Save",
+            accelerator: 'CmdOrCtrl+S',
+            click(): void {
+              note?.save()
+            },
+            visible: note !== null
           },
           { type: 'separator' },
           isMac ? { role: 'close' } : { role: 'quit' }
@@ -116,7 +126,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
     ])
 
     remote.Menu.setApplicationMenu(menu)
-  }, [notebook, selectedTheme.id, setSelectedTheme])
+  }, [note, notebook, selectedTheme.id, setSelectedTheme])
 
   return (
     <>

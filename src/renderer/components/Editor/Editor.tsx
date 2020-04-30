@@ -5,12 +5,13 @@ import * as VickyMD from 'vickymd/core'
 import 'react-perfect-scrollbar/dist/css/styles.css'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
-import './EditorCore.css'
+import './Editor.css'
 import { NoteProvider } from '../App'
-import { Editor } from 'codemirror'
+import { Editor as CodeMirrorEditor } from 'codemirror'
 import { useStyles } from './style'
 import { ThemeProvider, ThemeContext } from '../ThemeProvider/ThemeProvider'
 import { useEmojiHint, useCommandHint } from './hints'
+import { remote } from 'electron'
 
 const EDITOR_OPTIONS = {
   mode: {
@@ -27,11 +28,11 @@ const EDITOR_OPTIONS = {
   }
 }
 
-export const EditorCore = (): JSX.Element => {
+export const Editor = (): JSX.Element => {
   const [theme] = useContext(ThemeProvider) as ThemeContext
   const note = useContext(NoteProvider)
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
-  const [editor, setEditor] = useState<Editor | null>(null)
+  const [editor, setEditor] = useState<CodeMirrorEditor | null>(null)
 
   const classes = useStyles()
 
@@ -49,9 +50,11 @@ export const EditorCore = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
+    remote.getCurrentWebContents().clearHistory()
+    editor?.clearHistory()
     editor?.setValue(note?.getCurrentFileContents() || "")
 
-    const setValue = (instance: Editor): void => {
+    const setValue = (instance: CodeMirrorEditor): void => {
       note?.setBufferedContents(instance.getValue())
     }
 
@@ -61,6 +64,20 @@ export const EditorCore = (): JSX.Element => {
       editor?.off('change', setValue)
     }
   }, [editor, note])
+
+  useEffect(() => {
+    const win = remote.getCurrentWindow()
+
+    const onClose = (): void => {
+      note?.save()
+    }
+
+    win.on('close', onClose)
+
+    return (): void => {
+      win.off('close', onClose)
+    }
+  }, [note])
 
   useEffect(() => {
     if (editor) {
