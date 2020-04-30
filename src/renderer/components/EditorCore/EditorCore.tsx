@@ -10,7 +10,7 @@ import { NoteProvider } from '../App'
 import { Editor } from 'codemirror'
 import { useStyles } from './style'
 import { ThemeProvider, ThemeContext } from '../ThemeProvider/ThemeProvider'
-import { useEmojiHint } from './hints'
+import { useEmojiHint, useCommandHint } from './hints'
 
 const EDITOR_OPTIONS = {
   mode: {
@@ -68,6 +68,7 @@ export const EditorCore = (): JSX.Element => {
     }
   }, [editor, theme])
 
+  useCommandHint(editor)
   useEmojiHint(editor)
 
   return (
