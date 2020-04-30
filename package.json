@@ -67,9 +67,7 @@
     "@material-ui/icons": "4.9.1",
     "@material-ui/lab": "4.0.0-alpha.51",
     "chokidar": "3.4.0",
-    "codemirror": "5.53.2",
     "electron-updater": "4.3.1",
-    "emoji-assets": "5.0.2",
     "emoji-toolkit": "5.5.0",
     "katex": "0.11.1",
     "marked": "1.0.0",
@@ -78,8 +76,7 @@
     "react-dom": "16.13.1",
     "react-icons": "3.10.0",
     "react-perfect-scrollbar": "1.5.8",
-    "source-map-support": "0.5.19",
-    "vickymd": "0.1.24"
+    "source-map-support": "0.5.19"
   },
   "devDependencies": {
     "@babel/core": "7.9.6",
@@ -91,6 +88,7 @@
     "@types/react-dom": "16.9.7",
     "@typescript-eslint/eslint-plugin": "2.30.0",
     "@typescript-eslint/parser": "2.30.0",
+    "codemirror": "5.53.2",
     "copy-webpack-plugin": "5.1.1",
     "create-ts-index": "1.12.0",
     "electron": "8.2.4",
@@ -98,6 +96,7 @@
     "electron-webpack": "2.8.2",
     "electron-webpack-eslint": "6.0.0",
     "electron-webpack-ts": "4.0.1",
+    "emoji-assets": "5.0.2",
     "eslint": "6.8.0",
     "eslint-plugin-react": "7.19.0",
     "eslint-plugin-react-hooks": "3.0.0",
@@ -105,6 +104,7 @@
     "rimraf": "3.0.2",
     "sass-loader": "8.0.2",
     "typescript": "3.8.3",
+    "vickymd": "0.1.24",
     "webpack": "4.43.0",
     "yarn-deduplicate": "2.0.0"
   }
