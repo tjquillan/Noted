@@ -12,18 +12,13 @@ const config = (config) => {
     config.plugins.push(
       new CopyPlugin([
         {
-          from: path.join(process.cwd(), 'node_modules','vickymd', 'theme', '**', '*.css'),
+          from: path.join(process.cwd(), 'node_modules','vickymd', 'theme'),
           to: 'styles/theme',
-          transformPath: (targetPath,) => {
-            return targetPath.substr(0, 13) + targetPath.substr(40)
-          }
+          ignore: ['*.js', '*.scss', '*.ts', '*.map']
         },
         {
-          from: path.join(process.cwd(), 'node_modules', 'emoji-assets', 'png', '**', '*.png'),
-          to: 'emoji',
-          transformPath: (targetPath,) => {
-            return targetPath.substr(0,6) + targetPath.substr(36)
-          }
+          from: path.join(process.cwd(), 'node_modules', 'emoji-assets', 'png'),
+          to: 'emoji'
         }
       ])
     )
