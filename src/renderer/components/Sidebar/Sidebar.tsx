@@ -50,9 +50,8 @@ export const Sidebar = ({ setNote }: SidebarProps): JSX.Element => {
   const [notes, setNotes] = useState<Array<JSX.Element>>(getNotes())
 
   useEffect(() => {
-    notebook.addNotesHook('add', () => {
-      setNotes(getNotes())
-    })
+    setNotes(getNotes())
+    notebook.addNotesHook('add', () => setNotes(getNotes()))
   }, [getNotes, notebook])
 
   const [selected, setSelected] = useState<Array<string>>([])
