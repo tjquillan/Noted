@@ -19,6 +19,7 @@ let mainWindow: BrowserWindow | null
 
 function createMainWindow(): BrowserWindow {
   const window = new BrowserWindow({
+    title: "Noted",
     webPreferences: {
       nodeIntegration: true
     }
