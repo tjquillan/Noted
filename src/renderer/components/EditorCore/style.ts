@@ -16,7 +16,6 @@ export const useStyles = makeStyles((theme: Theme) =>
       borderRadius: 0,
     },
     editorWrapper: {
-      "flex": 1,
       "overflow": "auto",
       "backgroundColor": theme.palette.background.paper,
       "& .CodeMirror-gutters": {
@@ -27,13 +26,9 @@ export const useStyles = makeStyles((theme: Theme) =>
       },
       "& .CodeMirror": {
         height: "100%",
-        padding: theme.spacing(0, 2),
         [theme.breakpoints.down("sm")]: {
           padding: theme.spacing(1),
         }
-      },
-      "& .CodeMirror-vscrollbar": {
-        // display: "none !important",
       },
       "& .CodeMirror-placeholder": {
         color: `${theme.palette.action.disabled} !important`,
