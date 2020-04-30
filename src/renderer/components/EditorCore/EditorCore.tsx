@@ -1,19 +1,4 @@
-import 'codemirror'
-import 'codemirror/lib/codemirror.css'
-import 'codemirror/mode/htmlmixed/htmlmixed'
-import 'codemirror/mode/stex/stex'
-import 'codemirror/mode/yaml/yaml'
-
-import 'vickymd'
-import 'vickymd/powerpack/fold-math-with-katex'
-import 'vickymd/powerpack/fold-code-with-mermaid'
-import 'vickymd/powerpack/fold-code-with-plantuml'
-import 'vickymd/powerpack/fold-code-with-echarts'
-import 'vickymd/powerpack/fold-code-with-wavedrom'
-import 'vickymd/powerpack/hover-with-marked'
-import './powerpack/fold-emoji-with-joypixels'
-
-import React, { useEffect, useRef, useContext, useState, useCallback } from 'react'
+import React, { useEffect, useRef, useContext, useState } from 'react'
 
 import * as VickyMD from 'vickymd/core'
 
@@ -25,11 +10,7 @@ import { NoteProvider } from '../App'
 import { Editor } from 'codemirror'
 import { useStyles } from './style'
 import { ThemeProvider, ThemeContext } from '../ThemeProvider/ThemeProvider'
-
-// Set necessary window scope variables
-// Gotten from: https://github.com/0xGG/crossnote/blob/32a4af1878b79bb8841f8a3d3f45ca50982455be/src/editor/index.ts#L41
-// @ts-ignore
-window["CodeMirror"] = require("codemirror");
+import { useEmojiHint } from './hints'
 
 const EDITOR_OPTIONS = {
   mode: {
@@ -43,10 +24,6 @@ const EDITOR_OPTIONS = {
     html: true,
     emoji: true,
     code: true
-  },
-  hmdFoldCode: {
-    flowchart: true,
-    mermaid: true,
   }
 }
 
@@ -60,28 +37,38 @@ export const EditorCore = (): JSX.Element => {
 
   useEffect(() => {
     if (textAreaRef.current) {
-      const editor = VickyMD.fromTextArea(textAreaRef.current, EDITOR_OPTIONS)
-      editor.setSize(null, '100%')
+      const editor = VickyMD.fromTextArea(textAreaRef.current, {
+        mode: EDITOR_OPTIONS.mode,
+        hmdFold: EDITOR_OPTIONS.hmdFold,
+        showCursorWhenSelecting: true
+      })
       editor.setOption("lineNumbers", false)
       editor.setOption("foldGutter", false)
       setEditor(editor)
     }
   }, [])
 
-  const setValue = useCallback((instance: Editor) => {
-    note?.setBufferedContents(instance.getValue())
-  }, [note])
-
   useEffect(() => {
     editor?.setValue(note?.getCurrentFileContents() || "")
+
+    const setValue = (instance: Editor): void => {
+      note?.setBufferedContents(instance.getValue())
+    }
+
     editor?.on('change', setValue)
-  }, [editor, note, setValue])
+
+    return (): void => {
+      editor?.off('change', setValue)
+    }
+  }, [editor, note])
 
   useEffect(() => {
     if (editor) {
       theme.themeEditor(editor)
     }
   }, [editor, theme])
+
+  useEmojiHint(editor)
 
   return (
     <div className="EditorCore">

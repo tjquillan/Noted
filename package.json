@@ -17,6 +17,22 @@
     "directories": {
       "output": "releases"
     },
+    "extraResources": [
+      {
+        "from": "node_modules/vickymd/theme",
+        "to": "styles/theme",
+        "filter": [
+          "**/*.css"
+        ]
+      },
+      {
+        "from": "node_modules/emoji-assets/png",
+        "to": "emoji",
+        "filter": [
+          "**/*.png"
+        ]
+      }
+    ],
     "linux": {
       "target": [
         "AppImage",
@@ -52,6 +68,7 @@
     "chokidar": "3.4.0",
     "codemirror": "5.53.2",
     "electron-updater": "4.3.1",
+    "emoji-assets": "5.0.2",
     "emoji-toolkit": "5.5.0",
     "katex": "0.11.1",
     "marked": "1.0.0",

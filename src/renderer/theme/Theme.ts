@@ -1,6 +1,7 @@
 import { ThemeOptions, Theme as MuiTheme, createMuiTheme } from "@material-ui/core/styles";
 import { ThemeName, setTheme } from "vickymd/theme";
 import { Editor } from "codemirror";
+import { getResourceHome } from "../util/paths";
 
 export class Theme {
   private muiTheme: () => MuiTheme
@@ -17,7 +18,7 @@ export class Theme {
     setTheme({
       editor,
       themeName: this.id,
-      baseUri: '/styles/'
+      baseUri: `${getResourceHome("styles", "theme")}/`
     })
   }
 }

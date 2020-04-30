@@ -7,10 +7,12 @@ import * as path from 'path';
 import * as fs from 'fs';
 
 const APP_NAME = "Noted"
+const isDevelopment = process.env.NODE_ENV !== 'production'
 
 const DATA_HOME = path.join(pfGetDataHome(), APP_NAME)
 const CONFIG_HOME = path.join(pfGetConfigHome(), APP_NAME)
 const CACHE_HOME = path.join(getCacheFolder(), APP_NAME)
+const RESOURCE_HOME = isDevelopment ? "/" : process.resourcesPath
 
 /**
  * Return the data home for the current OS.
@@ -59,4 +61,10 @@ export function getCacheHome(...paths: Array<string>): string {
   }
 
   return cachHome
+}
+
+export function getResourceHome(...paths: Array<string>): string {
+  const resourcesHome = path.join(RESOURCE_HOME, ...paths)
+
+  return resourcesHome
 }
