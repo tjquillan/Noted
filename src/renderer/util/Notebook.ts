@@ -104,7 +104,7 @@ export class Notebook {
 
   private indexNotes(): void {
     const files = fs.readdirSync(this.path).filter((file) => path.extname(file) === '.md')
-    this.notes = files.map((file) => file.split('.')[0])
+    this.notes = files.map((file) => file.slice(0, -3))
   }
 
   private readTags(): Tags {
