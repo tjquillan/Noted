@@ -50,34 +50,36 @@ export const Editor = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
+    // Clear history of previous note
     remote.getCurrentWebContents().clearHistory()
     editor?.clearHistory()
+
+    // Load note contents into editor
     editor?.setValue(note?.getCurrentFileContents() || "")
 
+    // Focus editor
+    editor?.focus()
+
+    // Update notes contents for saving
     const setValue = (instance: CodeMirrorEditor): void => {
       note?.setBufferedContents(instance.getValue())
     }
 
-    editor?.on('change', setValue)
-
-    return (): void => {
-      editor?.off('change', setValue)
-    }
-  }, [editor, note])
-
-  useEffect(() => {
-    const win = remote.getCurrentWindow()
-
+    // Save note on window close
     const onClose = (): void => {
       note?.save()
     }
 
+    editor?.on('change', setValue)
+
+    const win = remote.getCurrentWindow()
     win.on('close', onClose)
 
     return (): void => {
+      editor?.off('change', setValue)
       win.off('close', onClose)
     }
-  }, [note])
+  }, [editor, note])
 
   useEffect(() => {
     if (editor) {
