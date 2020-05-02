@@ -15,12 +15,12 @@ import 'codemirror/keymap/vim'
 import 'codemirror/keymap/emacs'
 
 import 'vickymd'
-import 'vickymd/powerpack/fold-math-with-katex'
 import 'vickymd/powerpack/fold-code-with-mermaid'
 import 'vickymd/powerpack/fold-code-with-plantuml'
 import 'vickymd/powerpack/fold-code-with-echarts'
 import 'vickymd/powerpack/fold-code-with-wavedrom'
 import 'vickymd/powerpack/hover-with-marked'
+import './powerpack/fold-math-with-katex'
 import './powerpack/fold-emoji-with-joypixels'
 
 // Set necessary window scope variables
