@@ -35,7 +35,9 @@ export const App = (): JSX.Element => {
         <NoteProvider.Provider value={note}>
           <Menu setNotebook={setNotebook} />
           <Sidebar setNote={setNote} />
-          <Editor />
+          <div hidden={!note}>
+            <Editor />
+          </div>
         </NoteProvider.Provider>
       )
     } else {
