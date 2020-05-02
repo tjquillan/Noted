@@ -28,7 +28,9 @@ function createMainWindow(): BrowserWindow {
   window.maximize()
 
   if (isDevelopment) {
-    window.webContents.openDevTools()
+    window.webContents.on('did-frame-finish-load', () => {
+      window.webContents.openDevTools()
+    })
   }
 
   if (isDevelopment) {
