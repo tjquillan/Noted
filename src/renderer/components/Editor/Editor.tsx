@@ -39,6 +39,7 @@ export const Editor = (): JSX.Element => {
   const [theme] = useContext(ThemeProvider) as ThemeContext
   const note = useContext(NoteProvider)
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
+  const [loading, setLoading] = useState(true)
   const [editor, setEditor] = useState<CodeMirrorEditor | null>(null)
   const [cursorPosition, setCursorPosition] = useState<CursorPosition>({
     line: 0,
@@ -70,6 +71,9 @@ export const Editor = (): JSX.Element => {
       editor.on('cursorActivity', onCursorActivity)
 
       setEditor(editor)
+
+      // Small delay to ensure editor is fully loaded
+      new Promise((resolve) => setTimeout(resolve, 500)).then(() => setLoading(false))
 
       return (): void => {
         editor.off('cursorActivity', onCursorActivity)
@@ -127,7 +131,7 @@ export const Editor = (): JSX.Element => {
           autoHideDelay: 400
         }
       }} style={{height: '100%'}}>
-        <Box className={clsx(classes.editorWrapper, "os-host-flexbox")}>
+        <Box className={clsx(classes.editorWrapper, "os-host-flexbox")} style={{visibility: loading ? 'hidden' : undefined}}>
           <textarea className={classes.editor} ref={textAreaRef} />
         </Box>
       </OverlayScrollbarsComponent>

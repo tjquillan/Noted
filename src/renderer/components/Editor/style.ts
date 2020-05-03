@@ -25,7 +25,7 @@ export const useStyles = makeStyles((theme: Theme) =>
       },
       "& .CodeMirror": {
         height: "100%",
-        padding: theme.spacing(0, 1.9), // 1.9 as 2 produces a white bar on the left
+        padding: theme.spacing(0, 1),
       },
       "& .CodeMirror-placeholder": {
         color: `${theme.palette.action.disabled} !important`,
