@@ -1,5 +1,15 @@
 {
-    "whiteListedModules": ["codemirror", "vickymd"],
+    "whiteListedModules": [
+      "react",
+      "react-dom",
+      "react-icons",
+      "@material-ui/core",
+      "@material-ui/icons",
+      "@material-ui/lab",
+      "overlayscrollbars-react",
+      "codemirror",
+      "vickymd"
+    ],
     "renderer": {
       "webpackConfig": "config/webpack.renderer.additions.js"
     }

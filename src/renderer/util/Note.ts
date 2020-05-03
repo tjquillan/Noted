@@ -3,7 +3,7 @@ import * as fs from 'fs';
 export class Note {
   private bufferedContents: string
 
-  constructor(private path: string) {
+  constructor(public readonly name: string, private readonly path: string) {
     this.bufferedContents = fs.readFileSync(this.path).toString()
   }
 

@@ -37,4 +37,4 @@ export const DarkTheme = new Theme("Dark", "dark", {
       disabled: "#353535",
     },
   },
-})
+}, 'os-theme-light')

@@ -6,4 +6,4 @@ export const LightTheme = new Theme("Light", "light", {
     primary: blue,
     secondary: orange,
   },
-})
+}, 'os-theme-dark')

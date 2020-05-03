@@ -28,4 +28,4 @@ export const OneDarkTheme = new Theme("One Dark", "one-dark", {
       disabled: "#353535",
     },
   },
-})
+}, 'os-theme-light')

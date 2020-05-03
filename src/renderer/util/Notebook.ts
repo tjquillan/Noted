@@ -65,7 +65,7 @@ export class Notebook {
   }
 
   public getNote(name: string): Note {
-    return new Note(path.join(this.path, `${name}.md`))
+    return new Note(name, path.join(this.path, `${name}.md`))
   }
 
   public addTag(tag: string, note: string): void {

@@ -1,24 +1,18 @@
 import React, { useState, useCallback, useContext, useEffect } from "react"
 import { makeStyles, createStyles } from '@material-ui/core/styles';
-import TreeView from "@material-ui/lab/TreeView";
-import TreeItem from "@material-ui/lab/TreeItem";
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import DescriptionIcon from '@material-ui/icons/Description';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { TreeView, TreeItem } from '@material-ui/lab';
+import { ExpandMore, ChevronRight, Description } from '@material-ui/icons'
 import { NotebookProvider } from "../App";
 import { Notebook } from "../../util/Notebook";
-import Drawer from "@material-ui/core/Drawer";
 import { Note } from "../../util/Note";
+import { Drawer } from "@material-ui/core";
 
 const drawerWidth = '175px'
 const useStyles = makeStyles(() =>
   createStyles({
     drawer: {
-      position: "absolute",
-      top: '0px',
-      left: '0px',
-      height: '100%',
       width: drawerWidth,
+      flexShrink: 0
     },
     drawerPaper: {
       width: drawerWidth
@@ -45,7 +39,7 @@ export const Sidebar = ({ setNote }: SidebarProps): JSX.Element => {
   // This component wont render if the context is null so we can safely cast it
   const notebook = useContext(NotebookProvider) as Notebook
 
-  const getNotes = useCallback(() => renderTree(notebook.getNotes(), { icon: <DescriptionIcon /> }, true), [notebook])
+  const getNotes = useCallback(() => renderTree(notebook.getNotes(), { icon: <Description /> }, true), [notebook])
 
   const [notes, setNotes] = useState<Array<JSX.Element>>(getNotes())
 
@@ -86,8 +80,8 @@ export const Sidebar = ({ setNote }: SidebarProps): JSX.Element => {
       }}
     >
       <TreeView
-        defaultCollapseIcon={<ExpandMoreIcon />}
-        defaultExpandIcon={<ChevronRightIcon />}
+        defaultCollapseIcon={<ExpandMore />}
+        defaultExpandIcon={<ChevronRight />}
         selected={selected}
         onNodeSelect={onSelect}
       >

@@ -2,16 +2,38 @@ import React, { useState, createContext, useMemo, useCallback } from 'react';
 import { Editor } from '../Editor';
 import { Sidebar } from '../Sidebar';
 import { Menu } from '../Menu';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { Settings } from '../../util/Settings';
 import { Notebook } from '../../util/Notebook';
 import { Note } from '../../util/Note';
 import { ThemeManager } from '../ThemeProvider/ThemeProvider';
+import { createStyles, makeStyles, Box, CssBaseline } from '@material-ui/core';
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    "@global": {
+      '.CodeMirror': {
+        height: '100% !important'
+      }
+    },
+    mainPanel: {
+      display: "flex",
+      flexDirection: 'row',
+      width: "100%",
+      height: "100% "
+    },
+    editorPanel: {
+      width: '100%',
+      height: '100%'
+    }
+  }),
+)
 
 export const NotebookProvider = createContext<Notebook | null>(null)
 export const NoteProvider = createContext<Note | null>(null)
 
 export const App = (): JSX.Element => {
+  const classes = useStyles()
+
   const settings = useMemo(() => Settings.getInstance(), [])
 
   const currentNotebook = settings.getCurrentNotebook()
@@ -29,35 +51,32 @@ export const App = (): JSX.Element => {
     setNoteState(newNote)
   }, [note])
 
-  const mainView = useMemo(() => {
-    if (notebook) {
-      return (
-        <NoteProvider.Provider value={note}>
-          <Menu setNotebook={setNotebook} />
-          <Sidebar setNote={setNote} />
-          <div hidden={!note}>
-            <Editor />
-          </div>
-        </NoteProvider.Provider>
-      )
-    } else {
-      return (
-        <>
-          <Menu setNotebook={setNotebook} />
-          <text>Please Open A Notebook</text>
-        </>
-      )
-    }
-  }, [notebook, note, setNotebook, setNote])
+
+  let mainView = null
+  if (notebook) {
+    mainView = (
+      <Box className={classes.mainPanel}>
+        <Sidebar setNote={setNote} />
+        <div className={classes.editorPanel} hidden={!note}>
+          <Editor />
+        </div>
+      </Box>
+    )
+  } else {
+    mainView = (
+      <text>Please Open A Notebook</text>
+    )
+  }
 
   return (
     <ThemeManager>
-      <div className="App">
-        <CssBaseline />
-        <NotebookProvider.Provider value={notebook}>
+      <CssBaseline />
+      <NotebookProvider.Provider value={notebook}>
+        <NoteProvider.Provider value={note}>
+          <Menu setNotebook={setNotebook} />
           {mainView}
-        </NotebookProvider.Provider>
-      </div>
+        </NoteProvider.Provider>
+      </NotebookProvider.Provider>
     </ThemeManager>
   )
 }

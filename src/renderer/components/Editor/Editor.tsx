@@ -2,16 +2,23 @@ import React, { useEffect, useRef, useContext, useState } from 'react'
 
 import * as VickyMD from 'vickymd/core'
 
-import 'react-perfect-scrollbar/dist/css/styles.css'
-import PerfectScrollbar from 'react-perfect-scrollbar'
+import clsx from 'clsx';
 
-import './Editor.css'
+import 'overlayscrollbars/css/OverlayScrollbars.css';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+
 import { NoteProvider } from '../App'
 import { Editor as CodeMirrorEditor } from 'codemirror'
 import { useStyles } from './style'
 import { ThemeProvider, ThemeContext } from '../ThemeProvider/ThemeProvider'
 import { useEmojiHint, useCommandHint } from './hints'
 import { remote } from 'electron'
+import { Box, Typography } from '@material-ui/core';
+
+interface CursorPosition {
+  ch: number;
+  line: number;
+}
 
 const EDITOR_OPTIONS = {
   mode: {
@@ -33,6 +40,10 @@ export const Editor = (): JSX.Element => {
   const note = useContext(NoteProvider)
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
   const [editor, setEditor] = useState<CodeMirrorEditor | null>(null)
+  const [cursorPosition, setCursorPosition] = useState<CursorPosition>({
+    line: 0,
+    ch: 0,
+  })
 
   const classes = useStyles()
 
@@ -45,8 +56,26 @@ export const Editor = (): JSX.Element => {
       })
       editor.setOption("lineNumbers", false)
       editor.setOption("foldGutter", false)
+
+      const onCursorActivity = (instance: CodeMirrorEditor): void => {
+        const cursor = instance.getCursor()
+        if (cursor) {
+          setCursorPosition({
+            line: cursor.line,
+            ch: cursor.ch,
+          });
+        }
+      }
+
+      editor.on('cursorActivity', onCursorActivity)
+
       setEditor(editor)
+
+      return (): void => {
+        editor.off('cursorActivity', onCursorActivity)
+      }
     }
+    return
   }, [])
 
   useEffect(() => {
@@ -91,12 +120,30 @@ export const Editor = (): JSX.Element => {
   useEmojiHint(editor)
 
   return (
-    <div className="EditorCore">
-      <PerfectScrollbar>
-        <div className={classes.editorWrapper}>
+    <Box className={classes.editorPanel}>
+      <OverlayScrollbarsComponent className={theme.scrollTheme} options={{
+        sizeAutoCapable: false,
+        scrollbars: {
+          autoHide: "scroll",
+          autoHideDelay: 400
+        }
+      }} style={{height: '100%'}}>
+        <Box className={clsx(classes.editorWrapper, "os-host-flexbox")}>
           <textarea className={classes.editor} ref={textAreaRef} />
-        </div>
-      </PerfectScrollbar>
-    </div>
+        </Box>
+      </OverlayScrollbarsComponent>
+      <Box className={classes.bottomPanel}>
+        <Box className={classes.row}>
+          <Typography variant={"caption"} color={"textPrimary"}>
+            {note?.name}
+          </Typography>
+        </Box>
+        <Box className={classes.cursorPositionInfo}>
+          <Typography variant={"caption"} color={"textPrimary"}>
+            {`Ln ${cursorPosition.line + 1}, Col ${cursorPosition.ch}`}
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
   )
 }

@@ -6,7 +6,10 @@ import { getResourceHome } from "../util/paths";
 export class Theme {
   private muiTheme: () => MuiTheme
 
-  constructor(public readonly name: string, public id: ThemeName, themeOptions: ThemeOptions) {
+  constructor(public readonly name: string,
+              public readonly id: ThemeName,
+              themeOptions: ThemeOptions,
+              public readonly scrollTheme: 'os-theme-dark' | 'os-theme-light') {
     this.muiTheme = (): MuiTheme => createMuiTheme(themeOptions)
   }
 
