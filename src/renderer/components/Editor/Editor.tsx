@@ -79,12 +79,11 @@ export const Editor = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    // Clear history of previous note
-    remote.getCurrentWebContents().clearHistory()
-    editor?.clearHistory()
-
     // Load note contents into editor
     editor?.setValue(note?.getCurrentFileContents() || "")
+
+    // Clear the editors history to stop undoing to previous notes text
+    editor?.clearHistory()
 
     // Focus editor
     editor?.focus()
