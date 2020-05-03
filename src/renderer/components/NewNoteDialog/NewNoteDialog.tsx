@@ -1,13 +1,13 @@
-import React, { useRef, useContext, useCallback } from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { NotebookProvider } from '../App';
-import { Notebook } from '../../util/Notebook';
+import React, { useRef, useContext, useCallback } from "react"
+import Button from "@material-ui/core/Button"
+import TextField from "@material-ui/core/TextField"
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogContentText from "@material-ui/core/DialogContentText"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import { NotebookProvider } from "../App"
+import { Notebook } from "../../util/Notebook"
 
 interface NewNoteDialogProps {
   open: boolean
@@ -21,7 +21,7 @@ export const NewNoteDialog = (props: NewNoteDialogProps): JSX.Element => {
 
   const setOpen = props.setOpen
   const onClose = useCallback(() => {
-    setOpen(false);
+    setOpen(false)
   }, [setOpen])
 
   const onCreate = useCallback(() => {
@@ -37,9 +37,7 @@ export const NewNoteDialog = (props: NewNoteDialogProps): JSX.Element => {
     <Dialog open={props.open} onClose={onClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Create Note</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          Please enter the name of your new note.
-        </DialogContentText>
+        <DialogContentText>Please enter the name of your new note.</DialogContentText>
         <TextField
           autoFocus
           margin="dense"

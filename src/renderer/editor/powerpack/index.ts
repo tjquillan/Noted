@@ -1,1 +1,1 @@
-export * from './fold-emoji-with-joypixels'
+export * from "./fold-emoji-with-joypixels"

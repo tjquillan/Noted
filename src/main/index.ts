@@ -1,14 +1,14 @@
-import { app, BrowserWindow } from 'electron'
-import { autoUpdater } from 'electron-updater'
-import * as path from 'path'
-import { format as formatUrl } from 'url'
+import { app, BrowserWindow } from "electron"
+import { autoUpdater } from "electron-updater"
+import * as path from "path"
+import { format as formatUrl } from "url"
 
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const isDevelopment = process.env.NODE_ENV !== "production"
 
 // Enable Hot Module Replacement
 // See: https://webpack.electron.build/development#hot-module-replacement
 if (module.hot) {
-  module.hot.accept();
+  module.hot.accept()
 }
 
 // See https://github.com/electron/electron/issues/18397
@@ -28,27 +28,28 @@ function createMainWindow(): BrowserWindow {
   window.maximize()
 
   if (isDevelopment) {
-    window.webContents.on('did-frame-finish-load', () => {
+    window.webContents.on("did-frame-finish-load", () => {
       window.webContents.openDevTools()
     })
   }
 
   if (isDevelopment) {
     window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`)
-  }
-  else {
-    window.loadURL(formatUrl({
-      pathname: path.join(__dirname, 'index.html'),
-      protocol: 'file',
-      slashes: true
-    }))
+  } else {
+    window.loadURL(
+      formatUrl({
+        pathname: path.join(__dirname, "index.html"),
+        protocol: "file",
+        slashes: true
+      })
+    )
   }
 
-  window.on('closed', () => {
+  window.on("closed", () => {
     mainWindow = null
   })
 
-  window.webContents.on('devtools-opened', () => {
+  window.webContents.on("devtools-opened", () => {
     window.focus()
     setImmediate(() => {
       window.focus()
@@ -59,14 +60,14 @@ function createMainWindow(): BrowserWindow {
 }
 
 // quit application when all windows are closed
-app.on('window-all-closed', () => {
+app.on("window-all-closed", () => {
   // on macOS it is common for applications to stay open until the user explicitly quits
-  if (process.platform !== 'darwin') {
+  if (process.platform !== "darwin") {
     app.quit()
   }
 })
 
-app.on('activate', () => {
+app.on("activate", () => {
   // on macOS it is common to re-create a window even after all windows have been closed
   if (mainWindow === null) {
     mainWindow = createMainWindow()
@@ -74,11 +75,11 @@ app.on('activate', () => {
 })
 
 // enable automatic updates
-app.on('ready', () => {
-  autoUpdater.checkForUpdatesAndNotify();
+app.on("ready", () => {
+  autoUpdater.checkForUpdatesAndNotify()
 })
 
 // create main BrowserWindow when electron is ready
-app.on('ready', () => {
+app.on("ready", () => {
   mainWindow = createMainWindow()
 })

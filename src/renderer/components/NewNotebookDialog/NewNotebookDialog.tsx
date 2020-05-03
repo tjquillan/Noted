@@ -1,12 +1,12 @@
-import React, { useRef, useCallback } from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import { Notebook } from '../../util/Notebook';
+import React, { useRef, useCallback } from "react"
+import Button from "@material-ui/core/Button"
+import TextField from "@material-ui/core/TextField"
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogContentText from "@material-ui/core/DialogContentText"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import { Notebook } from "../../util/Notebook"
 
 interface NewNotebookDialogProps {
   open: boolean
@@ -18,7 +18,7 @@ export const NewNotebookDialog = (props: NewNotebookDialogProps): JSX.Element =>
 
   const setOpen = props.setOpen
   const onClose = useCallback(() => {
-    setOpen(false);
+    setOpen(false)
   }, [setOpen])
 
   const onCreate = useCallback(() => {
@@ -34,9 +34,7 @@ export const NewNotebookDialog = (props: NewNotebookDialogProps): JSX.Element =>
     <Dialog open={props.open} onClose={onClose} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Create Notebook</DialogTitle>
       <DialogContent>
-        <DialogContentText>
-          Please enter the name of your new notebook.
-        </DialogContentText>
+        <DialogContentText>Please enter the name of your new notebook.</DialogContentText>
         <TextField
           autoFocus
           margin="dense"

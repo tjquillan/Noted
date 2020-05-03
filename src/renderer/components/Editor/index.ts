@@ -1,3 +1,3 @@
-export * from './Editor'
-export * from './hints'
-export * from './style'
+export * from "./Editor"
+export * from "./hints"
+export * from "./style"

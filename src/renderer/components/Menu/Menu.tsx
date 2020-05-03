@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { remote } from 'electron'
-import { NewNotebookDialog } from '../NewNotebookDialog';
-import { NewNoteDialog } from '../NewNoteDialog';
-import { NotebookSelectDialog } from '../NotebookSelectDialog';
-import { NotebookProvider, NoteProvider } from '../App/App';
-import { ThemeProvider, ThemeContext } from '../ThemeProvider/ThemeProvider';
-import { ThemeIndex } from '../../theme/ThemeIndex';
+import React, { useState, useEffect, useContext } from "react"
+import { remote } from "electron"
+import { NewNotebookDialog } from "../NewNotebookDialog"
+import { NewNoteDialog } from "../NewNoteDialog"
+import { NotebookSelectDialog } from "../NotebookSelectDialog"
+import { NotebookProvider, NoteProvider } from "../App/App"
+import { ThemeProvider, ThemeContext } from "../ThemeProvider/ThemeProvider"
+import { ThemeIndex } from "../../theme/ThemeIndex"
 
 interface MenuProps {
   setNotebook: (notebook: string) => void
@@ -50,77 +50,79 @@ export const Menu = (props: MenuProps): JSX.Element => {
                 label: "Notebook",
                 click(): void {
                   setNotebookSelectOpen(true)
-                },
+                }
               }
             ]
           },
-          { type: 'separator' },
+          { type: "separator" },
           {
             label: "Save",
-            accelerator: 'CmdOrCtrl+S',
+            accelerator: "CmdOrCtrl+S",
             click(): void {
               note?.save()
             },
             visible: note !== null
           },
-          { type: 'separator' },
-          isMac ? { role: 'close' } : { role: 'quit' }
+          { type: "separator" },
+          isMac ? { role: "close" } : { role: "quit" }
         ]
       },
       {
         label: "Edit",
         submenu: [
-          { role: 'undo' },
-          { role: 'redo' },
-          { type: 'separator' },
-          { role: 'cut' },
-          { role: 'copy' },
-          { role: 'paste' },
-          { role: 'delete' },
-          { type: 'separator' },
-          { role: 'selectAll' }
+          { role: "undo" },
+          { role: "redo" },
+          { type: "separator" },
+          { role: "cut" },
+          { role: "copy" },
+          { role: "paste" },
+          { role: "delete" },
+          { type: "separator" },
+          { role: "selectAll" }
         ]
       },
       {
         label: "View",
         submenu: [
-          { role: 'reload' },
-          { role: 'forceReload' },
-          { role: 'toggleDevTools' },
-          { type: 'separator' },
-          { role: 'resetZoom' },
-          { role: 'zoomIn' },
-          { role: 'zoomOut' },
-          { type: 'separator' },
-          { role: 'togglefullscreen' }
+          { role: "reload" },
+          { role: "forceReload" },
+          { role: "toggleDevTools" },
+          { type: "separator" },
+          { role: "resetZoom" },
+          { role: "zoomIn" },
+          { role: "zoomOut" },
+          { type: "separator" },
+          { role: "togglefullscreen" }
         ]
       },
       {
         label: "Window",
         submenu: [
-          { role: 'minimize' },
-          { role: 'zoom' },
+          { role: "minimize" },
+          { role: "zoom" },
           {
             label: "Theme",
-            submenu: ThemeIndex.getInstance().getThemes().map((theme) => {
-              return {
-                label: theme.name,
-                type: "checkbox",
-                checked: selectedTheme.id === theme.id,
-                click(): void {
-                  setSelectedTheme(theme)
+            submenu: ThemeIndex.getInstance()
+              .getThemes()
+              .map((theme) => {
+                return {
+                  label: theme.name,
+                  type: "checkbox",
+                  checked: selectedTheme.id === theme.id,
+                  click(): void {
+                    setSelectedTheme(theme)
+                  }
                 }
-              }
-            })
+              })
           },
-          ...(isMac ? [
-            { type: 'separator' as 'separator' },
-            { role: 'front' as 'front' },
-            { type: 'separator' as 'separator' },
-            { role: 'window' as 'window' },
-          ] : [
-              { role: 'close' as 'close' }
-            ])
+          ...(isMac
+            ? [
+                { type: "separator" as "separator" },
+                { role: "front" as "front" },
+                { type: "separator" as "separator" },
+                { role: "window" as "window" }
+              ]
+            : [{ role: "close" as "close" }])
         ]
       }
     ])

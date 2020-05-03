@@ -1,23 +1,23 @@
-import React, { useEffect, useRef, useContext, useState } from 'react'
+import React, { useEffect, useRef, useContext, useState } from "react"
 
-import * as VickyMD from 'vickymd/core'
+import * as VickyMD from "vickymd/core"
 
-import clsx from 'clsx';
+import clsx from "clsx"
 
-import 'overlayscrollbars/css/OverlayScrollbars.css';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+import "overlayscrollbars/css/OverlayScrollbars.css"
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react"
 
-import { NoteProvider } from '../App'
-import { Editor as CodeMirrorEditor } from 'codemirror'
-import { useStyles } from './style'
-import { ThemeProvider, ThemeContext } from '../ThemeProvider/ThemeProvider'
-import { useEmojiHint, useCommandHint } from './hints'
-import { remote } from 'electron'
-import { Box, Typography } from '@material-ui/core';
+import { NoteProvider } from "../App"
+import { Editor as CodeMirrorEditor } from "codemirror"
+import { useStyles } from "./style"
+import { ThemeProvider, ThemeContext } from "../ThemeProvider/ThemeProvider"
+import { useEmojiHint, useCommandHint } from "./hints"
+import { remote } from "electron"
+import { Box, Typography } from "@material-ui/core"
 
 interface CursorPosition {
-  ch: number;
-  line: number;
+  ch: number
+  line: number
 }
 
 const EDITOR_OPTIONS = {
@@ -43,7 +43,7 @@ export const Editor = (): JSX.Element => {
   const [editor, setEditor] = useState<CodeMirrorEditor | null>(null)
   const [cursorPosition, setCursorPosition] = useState<CursorPosition>({
     line: 0,
-    ch: 0,
+    ch: 0
   })
 
   const classes = useStyles()
@@ -63,12 +63,12 @@ export const Editor = (): JSX.Element => {
         if (cursor) {
           setCursorPosition({
             line: cursor.line,
-            ch: cursor.ch,
-          });
+            ch: cursor.ch
+          })
         }
       }
 
-      editor.on('cursorActivity', onCursorActivity)
+      editor.on("cursorActivity", onCursorActivity)
 
       setEditor(editor)
 
@@ -76,7 +76,7 @@ export const Editor = (): JSX.Element => {
       new Promise((resolve) => setTimeout(resolve, 500)).then(() => setLoading(false))
 
       return (): void => {
-        editor.off('cursorActivity', onCursorActivity)
+        editor.off("cursorActivity", onCursorActivity)
       }
     }
     return
@@ -102,14 +102,14 @@ export const Editor = (): JSX.Element => {
       note?.save()
     }
 
-    editor?.on('change', setValue)
+    editor?.on("change", setValue)
 
     const win = remote.getCurrentWindow()
-    win.on('close', onClose)
+    win.on("close", onClose)
 
     return (): void => {
-      editor?.off('change', setValue)
-      win.off('close', onClose)
+      editor?.off("change", setValue)
+      win.off("close", onClose)
     }
   }, [editor, note])
 
@@ -124,14 +124,21 @@ export const Editor = (): JSX.Element => {
 
   return (
     <Box className={classes.editorPanel}>
-      <OverlayScrollbarsComponent className={theme.scrollTheme} options={{
-        sizeAutoCapable: false,
-        scrollbars: {
-          autoHide: "scroll",
-          autoHideDelay: 400
-        }
-      }} style={{height: '100%'}}>
-        <Box className={clsx(classes.editorWrapper, "os-host-flexbox")} style={{visibility: loading ? 'hidden' : undefined}}>
+      <OverlayScrollbarsComponent
+        className={theme.scrollTheme}
+        options={{
+          sizeAutoCapable: false,
+          scrollbars: {
+            autoHide: "scroll",
+            autoHideDelay: 400
+          }
+        }}
+        style={{ height: "100%" }}
+      >
+        <Box
+          className={clsx(classes.editorWrapper, "os-host-flexbox")}
+          style={{ visibility: loading ? "hidden" : undefined }}
+        >
           <textarea className={classes.editor} ref={textAreaRef} />
         </Box>
       </OverlayScrollbarsComponent>

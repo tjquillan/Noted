@@ -1,13 +1,9 @@
-import {
-  getDataHome as pfGetDataHome,
-  getConfigHome as pfGetConfigHome,
-  getCacheFolder
-} from 'platform-folders';
-import * as path from 'path';
-import * as fs from 'fs';
+import { getDataHome as pfGetDataHome, getConfigHome as pfGetConfigHome, getCacheFolder } from "platform-folders"
+import * as path from "path"
+import * as fs from "fs"
 
 const APP_NAME = "Noted"
-const isDevelopment = process.env.NODE_ENV !== 'production'
+const isDevelopment = process.env.NODE_ENV !== "production"
 
 const DATA_HOME = path.join(pfGetDataHome(), APP_NAME)
 const CONFIG_HOME = path.join(pfGetConfigHome(), APP_NAME)
@@ -51,7 +47,6 @@ export function getConfigHome(...paths: Array<string>): string {
 
   return configHome
 }
-
 
 export function getCacheHome(...paths: Array<string>): string {
   const cachHome = path.join(CACHE_HOME, ...paths)

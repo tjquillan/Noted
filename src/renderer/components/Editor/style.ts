@@ -1,9 +1,9 @@
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles"
 
 export const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    '@global': {
-      '.CodeMirror .CodeMirror-cursor': {
+    "@global": {
+      ".CodeMirror .CodeMirror-cursor": {
         borderLeft: `2px solid ${theme.palette.info.dark}`
       }
     },
@@ -12,23 +12,23 @@ export const useStyles = makeStyles((theme: Theme) =>
       height: "100%",
       display: "flex",
       flexDirection: "column",
-      borderRadius: 0,
+      borderRadius: 0
     },
     editorWrapper: {
-      display: 'block',
+      display: "block",
       backgroundColor: theme.palette.background.paper,
       "& .CodeMirror-gutters": {
-        display: "none",
+        display: "none"
       },
       "& .CodeMirror-code": {
-        width: "100%",
+        width: "100%"
       },
       "& .CodeMirror": {
         height: "100%",
-        padding: theme.spacing(0, 1),
+        padding: theme.spacing(0, 1)
       },
       "& .CodeMirror-placeholder": {
-        color: `${theme.palette.action.disabled} !important`,
+        color: `${theme.palette.action.disabled} !important`
       }
     },
     editor: {
@@ -43,15 +43,15 @@ export const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: theme.palette.background.paper
     },
     row: {
       display: "flex",
       flexDirection: "row",
-      alignItems: "center",
+      alignItems: "center"
     },
     cursorPositionInfo: {
-      zIndex: 150,
-    },
-  }),
-);
+      zIndex: 150
+    }
+  })
+)

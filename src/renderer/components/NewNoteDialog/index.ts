@@ -1,1 +1,1 @@
-export * from './NewNoteDialog'
+export * from "./NewNoteDialog"

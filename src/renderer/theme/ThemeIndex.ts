@@ -46,10 +46,13 @@ export function useTheme(): [Theme, (theme: Theme) => void] {
   const themeIndex = useMemo(() => ThemeIndex.getInstance(), [])
   const settings = useMemo(() => Settings.getInstance(), [])
   const [theme, setThemeState] = useState(themeIndex.getTheme(settings.getTheme()))
-  const setTheme = useCallback((theme: Theme) => {
-    settings.setTheme(theme.id)
-    setThemeState(theme)
-  }, [settings])
+  const setTheme = useCallback(
+    (theme: Theme) => {
+      settings.setTheme(theme.id)
+      setThemeState(theme)
+    },
+    [settings]
+  )
 
   return [theme, setTheme]
 }

@@ -1,6 +1,5 @@
-import { ThemeName } from 'vickymd/theme';
-import Store from 'electron-store'
-
+import { ThemeName } from "vickymd/theme"
+import Store from "electron-store"
 
 const SCHEMA = {
   theme: {
@@ -12,10 +11,9 @@ export class Settings {
   private static instance: Settings
   private readonly store: Store
 
-
   private constructor() {
     this.store = new Store({
-      name: 'settings',
+      name: "settings",
       schema: SCHEMA
     })
   }
@@ -29,10 +27,10 @@ export class Settings {
   }
 
   public getTheme(): ThemeName {
-    return this.store.get('theme', 'one-dark')
+    return this.store.get("theme", "one-dark")
   }
 
   public setTheme(theme: ThemeName): void {
-    this.store.set('theme', theme)
+    this.store.set("theme", theme)
   }
 }

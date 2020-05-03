@@ -1,8 +1,8 @@
-import * as path from 'path';
-import { getNotebooksHome } from './paths';
-import * as fs from 'fs';
-import { watch } from 'chokidar';
-import { Note } from './Note';
+import * as path from "path"
+import { getNotebooksHome } from "./paths"
+import * as fs from "fs"
+import { watch } from "chokidar"
+import { Note } from "./Note"
 
 type WatcherHook = (path: string) => void
 
@@ -15,7 +15,7 @@ interface Tags {
   [tag: string]: Array<string>
 }
 
-const TAGS_FILE = '.tags.json'
+const TAGS_FILE = ".tags.json"
 
 export class Notebook {
   private readonly path: string
@@ -27,16 +27,14 @@ export class Notebook {
 
   static getNotebooks(): Array<string> {
     const notebooksHome = getNotebooksHome()
-    return fs.readdirSync(notebooksHome)
-      .filter((item) => fs.lstatSync(path.join(notebooksHome, item)).isDirectory())
+    return fs.readdirSync(notebooksHome).filter((item) => fs.lstatSync(path.join(notebooksHome, item)).isDirectory())
   }
 
   static createNotebook(name: string): void {
     const notebookPath = path.join(getNotebooksHome(), name)
-    fs.promises.mkdir(notebookPath)
-      .then(() => {
-        fs.promises.writeFile(path.join(notebookPath, TAGS_FILE), "{}")
-      })
+    fs.promises.mkdir(notebookPath).then(() => {
+      fs.promises.writeFile(path.join(notebookPath, TAGS_FILE), "{}")
+    })
   }
 
   constructor(public readonly name: string) {
@@ -50,7 +48,7 @@ export class Notebook {
     this.notesWatcher = watch(this.path, {
       ignoreInitial: true
     })
-    this.notesWatcher.on('add', (path: string) => {
+    this.notesWatcher.on("add", (path: string) => {
       this.indexNotes()
       this.notesHooks.add?.map(async (hook) => hook(path))
     })
@@ -70,12 +68,12 @@ export class Notebook {
 
   public addTag(tag: string, note: string): void {
     // If note already has tag then return
-    if(this.tags[tag].includes(note)) {
+    if (this.tags[tag].includes(note)) {
       return
     }
 
     // If the tag doesnt exist yet create it
-    if(this.tags[tag]) {
+    if (this.tags[tag]) {
       this.tags[tag] = [note]
     } else {
       this.tags[tag].push(note)
@@ -85,7 +83,7 @@ export class Notebook {
   public removeTag(tag: string, note: string): void {
     this.tags[tag] = this.tags[tag].filter((item) => item !== note)
 
-    if(!this.tags[tag]) {
+    if (!this.tags[tag]) {
       delete this.tags[tag]
     }
   }
@@ -98,17 +96,16 @@ export class Notebook {
     return this.tags
   }
 
-  public addNotesHook(event: 'add', hook: WatcherHook): void {
+  public addNotesHook(event: "add", hook: WatcherHook): void {
     this.notesHooks[event]?.push(hook)
   }
 
   private indexNotes(): void {
-    const files = fs.readdirSync(this.path).filter((file) => path.extname(file) === '.md')
+    const files = fs.readdirSync(this.path).filter((file) => path.extname(file) === ".md")
     this.notes = files.map((file) => file.slice(0, -3))
   }
 
   private readTags(): Tags {
     return JSON.parse(fs.readFileSync(this.tagsPath).toString())
   }
-
 }
