@@ -1,14 +1,14 @@
 import React, { useState, useCallback, useContext, useEffect } from "react"
 import { makeStyles, createStyles } from '@material-ui/core/styles';
 import { TreeView, TreeItem } from '@material-ui/lab';
-import { ExpandMore, ChevronRight, Description } from '@material-ui/icons'
+import { ExpandMore, ChevronRight, Description, Book } from '@material-ui/icons'
 import { NotebookProvider } from "../App";
 import { Notebook } from "../../util/Notebook";
 import { Note } from "../../util/Note";
-import { Drawer } from "@material-ui/core";
+import { Drawer, Chip } from "@material-ui/core";
 
 const drawerWidth = '175px'
-const useStyles = makeStyles(() =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     drawer: {
       width: drawerWidth,
@@ -17,6 +17,9 @@ const useStyles = makeStyles(() =>
     drawerPaper: {
       width: drawerWidth
     },
+    chip: {
+      margin: theme.spacing(1)
+    }
   }),
 )
 
@@ -79,6 +82,7 @@ export const Sidebar = ({ setNote }: SidebarProps): JSX.Element => {
         paper: classes.drawerPaper,
       }}
     >
+      <Chip className={classes.chip} icon={<Book/>} label={notebook.name}/>
       <TreeView
         defaultCollapseIcon={<ExpandMore />}
         defaultExpandIcon={<ChevronRight />}

@@ -39,7 +39,7 @@ export class Notebook {
       })
   }
 
-  constructor(name: string) {
+  constructor(public readonly name: string) {
     this.path = path.join(getNotebooksHome(), name)
     this.tagsPath = path.join(this.path, TAGS_FILE)
 
