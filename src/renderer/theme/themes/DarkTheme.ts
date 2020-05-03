@@ -6,6 +6,7 @@ export const DarkTheme = new Theme(
   "dark",
   {
     palette: {
+      type: "dark",
       common: { black: "#000", white: "#fff" },
       background: {
         paper: lighten("#1e1e1e", 0.05),

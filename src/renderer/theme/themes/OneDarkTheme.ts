@@ -7,6 +7,7 @@ export const OneDarkTheme = new Theme(
   "one-dark",
   {
     palette: {
+      type: "dark",
       common: { black: "#000", white: "#fff" },
       background: {
         paper: lighten("#282c34", 0.05),
