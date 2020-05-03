@@ -1,27 +1,23 @@
-import { getConfigHome } from './paths';
-import * as fs from 'fs';
-import * as path from 'path';
 import { ThemeName } from 'vickymd/theme';
+import Store from 'electron-store'
 
-const CONFIG_FILE = 'settings.json'
 
-interface SettingsItems {
-  theme: ThemeName
-  currentNotebook: string | null
+const SCHEMA = {
+  theme: {
+    type: "string" as "string"
+  }
 }
 
 export class Settings {
   private static instance: Settings
-  private readonly path: string = path.join(getConfigHome(), CONFIG_FILE)
-  private settings: SettingsItems
+  private readonly store: Store
 
 
   private constructor() {
-    if(!fs.existsSync(this.path)) {
-      fs.writeFileSync(this.path, "{}")
-    }
-
-    this.settings = this.readSettings()
+    this.store = new Store({
+      name: 'settings',
+      schema: SCHEMA
+    })
   }
 
   public static getInstance(): Settings {
@@ -33,29 +29,10 @@ export class Settings {
   }
 
   public getTheme(): ThemeName {
-    return this.settings.theme || 'one-dark'
+    return this.store.get('theme', 'one-dark')
   }
 
   public setTheme(theme: ThemeName): void {
-    this.settings.theme = theme
-    this.saveSettings()
+    this.store.set('theme', theme)
   }
-
-  public getCurrentNotebook(): string | null {
-    return this.settings.currentNotebook || null
-  }
-
-  public setCurrentNotebook(notebook: string): void {
-    this.settings.currentNotebook = notebook
-    this.saveSettings()
-  }
-
-  public saveSettings(): void {
-    fs.promises.writeFile(this.path, JSON.stringify(this.settings))
-  }
-
-  private readSettings(): SettingsItems {
-    return JSON.parse(fs.readFileSync(this.path).toString())
-  }
-
 }

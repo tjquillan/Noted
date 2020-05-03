@@ -65,6 +65,7 @@
   "dependencies": {
     "chokidar": "3.4.0",
     "clsx": "1.1.0",
+    "electron-store": "5.1.1",
     "electron-updater": "4.3.1",
     "emoji-toolkit": "5.5.0",
     "katex": "0.11.1",

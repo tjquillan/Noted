@@ -2,7 +2,7 @@ import React, { useState, createContext, useMemo, useCallback } from 'react';
 import { Editor } from '../Editor';
 import { Sidebar } from '../Sidebar';
 import { Menu } from '../Menu';
-import { Settings } from '../../util/Settings';
+import { Cache } from '../../util/Cache'
 import { Notebook } from '../../util/Notebook';
 import { Note } from '../../util/Note';
 import { ThemeManager } from '../ThemeProvider/ThemeProvider';
@@ -34,22 +34,24 @@ export const NoteProvider = createContext<Note | null>(null)
 export const App = (): JSX.Element => {
   const classes = useStyles()
 
-  const settings = useMemo(() => Settings.getInstance(), [])
+  const cache = useMemo(() => Cache.getInstance(), [])
 
-  const currentNotebook = settings.getCurrentNotebook()
+  const currentNotebook = cache.getCurrentNotebook()
   const [notebook, setNotebookState] = useState<Notebook | null>(currentNotebook ? new Notebook(currentNotebook) : null)
 
   const setNotebook = useCallback((notebook: string) => {
     setNotebookState(new Notebook(notebook))
-    settings.setCurrentNotebook(notebook)
-  }, [settings])
+    cache.setCurrentNotebook(notebook)
+  }, [cache])
 
-  const [note, setNoteState] = useState<Note | null>(null)
+  const currentNote = cache.getCurrentNote()
+  const [note, setNoteState] = useState<Note | null>(currentNote && notebook ? notebook.getNote(currentNote) : null)
 
   const setNote = useCallback((newNote: Note) => {
     note?.save()
     setNoteState(newNote)
-  }, [note])
+    cache.setCurrentNote(newNote.name)
+  }, [cache, note])
 
 
   let mainView = null
