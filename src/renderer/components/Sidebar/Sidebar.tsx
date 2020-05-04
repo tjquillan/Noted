@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext, useEffect } from "react"
+import React, { useState, useCallback, useContext, useEffect, useMemo } from "react"
 import { makeStyles, createStyles } from "@material-ui/core/styles"
 import { TreeView, TreeItem } from "@material-ui/lab"
 import { ExpandMore, ChevronRight, Description, Book } from "@material-ui/icons"
@@ -6,6 +6,7 @@ import { NotebookProvider } from "../App"
 import { Notebook } from "../../util/Notebook"
 import { Note } from "../../util/Note"
 import { Drawer, Chip } from "@material-ui/core"
+import { Cache } from "../../util/Cache"
 
 const drawerWidth = "175px"
 const useStyles = makeStyles((theme) =>
@@ -53,7 +54,8 @@ export const Sidebar = ({ setNote }: SidebarProps): JSX.Element => {
     notebook.addNotesHook("add", () => setNotes(getNotes()))
   }, [getNotes, notebook])
 
-  const [selected, setSelected] = useState<Array<string>>([])
+  const defaultNote = useMemo(() => Cache.getInstance().getCurrentNote(), [])
+  const [selected, setSelected] = useState<Array<string>>(defaultNote ? [`note-${defaultNote}`] : [])
 
   const onSelect = useCallback(
     (event: React.ChangeEvent<{}>, nodeIds: string[] | string) => {
@@ -90,6 +92,7 @@ export const Sidebar = ({ setNote }: SidebarProps): JSX.Element => {
     >
       <Chip className={classes.chip} icon={<Book />} label={notebook.name} />
       <TreeView
+        defaultExpanded={["notes"]}
         defaultCollapseIcon={<ExpandMore />}
         defaultExpandIcon={<ChevronRight />}
         selected={selected}
