@@ -1020,6 +1020,13 @@
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.5.tgz#b14efa8852b7768d898906613c23f688713e02cd"
   integrity sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
 
+"@types/echarts@4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@types/echarts/-/echarts-4.6.0.tgz#0dbf5c35db16ed23f9e61370179989fcd62c2678"
+  integrity sha512-Unz/VUdQ3KwD3vtCh8bI295F3p6rFSApivwGPQJ1Mu6837xeit7C1YuX+75gRwfahotbaazmG8e2rLBNEzrfFg==
+  dependencies:
+    "@types/zrender" "*"
+
 "@types/eslint-visitor-keys@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@types/eslint-visitor-keys/-/eslint-visitor-keys-1.0.0.tgz#1ee30d79544ca84d68d4b3cdb0af4f205663dd2d"
@@ -1088,6 +1095,11 @@
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@types/mdurl/-/mdurl-1.0.2.tgz#e2ce9d83a613bacf284c7be7d491945e39e1f8e9"
   integrity sha512-eC4U9MlIcu2q0KQmXszyn5Akca/0jrQmwDRgpAMJai7qBWq4amIQhZyNau4VYGtCeALvW1/NtjzJJ567aZxfKA==
+
+"@types/mermaid@8.2.1":
+  version "8.2.1"
+  resolved "https://registry.yarnpkg.com/@types/mermaid/-/mermaid-8.2.1.tgz#778fd45393965d6acf885b878911627fe9365d56"
+  integrity sha512-y3n4I34mKBGmHPiP7+dL7c+gMe+dI9h3I/5N6WJXHpnVn8hHcWH+YSsf+GwNx1LmjYVHmK8rcfbumjG+uprS0Q==
 
 "@types/minimatch@*", "@types/minimatch@^3.0.3":
   version "3.0.3"
@@ -1198,6 +1210,11 @@
     "@types/webpack-sources" "*"
     source-map "^0.6.0"
 
+"@types/yamljs@0.2.30":
+  version "0.2.30"
+  resolved "https://registry.yarnpkg.com/@types/yamljs/-/yamljs-0.2.30.tgz#d034e1d329e46e8d0f737c9a8db97f68f81b5382"
+  integrity sha1-0DTh0ynkbo0Pc3yajbl/aPgbU4I=
+
 "@types/yargs-parser@*":
   version "15.0.0"
   resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-15.0.0.tgz#cb3f9f741869e20cce330ffbeb9271590483882d"
@@ -1209,6 +1226,11 @@
   integrity sha512-9T1auFmbPZoxHz0enUFlUuKRy3it01R+hlggyVUMtnCTQRunsQYifnSGb8hET4Xo8yiC0o0r1paW3ud5+rbURg==
   dependencies:
     "@types/yargs-parser" "*"
+
+"@types/zrender@*":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/zrender/-/zrender-4.0.0.tgz#a6806f12ec4eccaaebd9b0d816f049aca6188fbd"
+  integrity sha512-s89GOIeKFiod2KSqHkfd2rzx+T2DVu7ihZCBEBnhFrzvQPUmzvDSBot9Fi1DfMQm9Odg+rTqoMGC38RvrwJK2w==
 
 "@typescript-eslint/eslint-plugin@2.30.0":
   version "2.30.0"
@@ -3739,7 +3761,7 @@ ecc-jsbn@~0.1.1:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
 
-echarts@^4.7.0:
+echarts@4.7.0, echarts@^4.7.0:
   version "4.7.0"
   resolved "https://registry.yarnpkg.com/echarts/-/echarts-4.7.0.tgz#5b3875a4c2f91e3929425fabab9eace7e4098b3f"
   integrity sha512-NlOTdUcAsIyCCG+N4uh0ZEvXtrPW2jvcuqf03RyqYeCKzyPbiOQ4I3MdKXMhxG3lBdqQNdNXVT71SB4KTQjN0A==
@@ -6628,7 +6650,7 @@ merge@^1.2.1:
   resolved "https://registry.yarnpkg.com/merge/-/merge-1.2.1.tgz#38bebf80c3220a8a487b6fcfb3941bb11720c145"
   integrity sha512-VjFo4P5Whtj4vsLzsYBu5ayHhoHJ0UqNm7ibvShmbmoz7tGi0vXaoJbGdB+GmDMLUdg8DpQXEIeVDAe8MaABvQ==
 
-mermaid@^8.5.0:
+mermaid@8.5.0, mermaid@^8.5.0:
   version "8.5.0"
   resolved "https://registry.yarnpkg.com/mermaid/-/mermaid-8.5.0.tgz#8ab141359e0ab2d20d00ff887f45648982b56158"
   integrity sha512-fZf4GAzkqWuSwo5L+BmzaBwWPudHkxL3M/t1RmS9Dvc2mcnv6hdhMaeC7poARpHaSGwkpb74LL81qXj+vAsVBg==
@@ -10721,7 +10743,7 @@ yaml@^1.7.2:
   dependencies:
     "@babel/runtime" "^7.9.2"
 
-yamljs@^0.3.0:
+yamljs@0.3.0, yamljs@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/yamljs/-/yamljs-0.3.0.tgz#dc060bf267447b39f7304e9b2bfbe8b5a7ddb03b"
   integrity sha512-C/FsVVhht4iPQYXOInoxUM/1ELSf9EsgKH34FofQOp6hwCPrW4vG4w5++TED3xRUo8gD7l0P1J1dLlDYzODsTQ==

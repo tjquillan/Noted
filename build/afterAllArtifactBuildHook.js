@@ -1,5 +1,5 @@
-const path = require('path')
-const rimraf = require('rimraf')
+const path = require("path")
+const rimraf = require("rimraf")
 
 exports.default = function (buildResult) {
   rimraf.sync(path.join(buildResult.outDir, "mac"))
