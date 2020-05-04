@@ -109,15 +109,16 @@ export function useEmojiHint(editor: Editor | null): void {
     }
 
     const onChange = (instance: Editor, changeObject: EditorChangeLinkedList): void => {
-      if (changeObject.text[0] === ":") {
+      const line = instance.getLine(changeObject.from.line)
+      if (line[changeObject.from.ch - 1] === ":") {
         instance.showHint({
           closeOnUnfocus: true,
           completeSingle: false,
           hint: () => {
-            const cursor = editor.getCursor()
-            const token = editor.getTokenAt(cursor)
+            const cursor = instance.getCursor()
+            const token = instance.getTokenAt(cursor)
             const line = cursor.line
-            const lineStr = editor.getLine(line)
+            const lineStr = instance.getLine(line)
             const end: number = cursor.ch
             let start = token.start
             if (lineStr[start] !== ":") {
