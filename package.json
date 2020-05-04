@@ -69,7 +69,8 @@
     }
   },
   "dependencies": {
-    "platform-folders": "0.5.1"
+    "platform-folders": "0.5.1",
+    "source-map-support": "0.5.19"
   },
   "devDependencies": {
     "@babel/core": "7.9.6",
@@ -123,7 +124,6 @@
     "react-icons": "3.10.0",
     "rimraf": "3.0.2",
     "sass-loader": "8.0.2",
-    "source-map-support": "0.5.19",
     "typescript": "3.8.3",
     "vickymd": "0.1.27",
     "webpack": "4.43.0",
