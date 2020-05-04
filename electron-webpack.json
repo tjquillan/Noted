@@ -1,16 +1,25 @@
 {
-    "whiteListedModules": [
-      "react",
-      "react-dom",
-      "react-icons",
-      "@material-ui/core",
-      "@material-ui/icons",
-      "@material-ui/lab",
-      "overlayscrollbars-react",
-      "codemirror",
-      "vickymd"
-    ],
-    "renderer": {
-      "webpackConfig": "config/webpack.renderer.additions.js"
-    }
+  "whiteListedModules": [
+    "@material-ui/core",
+    "@material-ui/icons",
+    "@material-ui/lab",
+    "chokidar",
+    "clsx",
+    "codemirror",
+    "echarts",
+    "emoji-toolkit",
+    "katex",
+    "marked",
+    "mermaid",
+    "overlayscrollbars",
+    "overlayscrollbars-react",
+    "react",
+    "react-dom",
+    "react-icons",
+    "vickymd",
+    "yamljs"
+  ],
+  "renderer": {
+    "webpackConfig": "config/webpack.renderer.additions.js"
+  }
 }
