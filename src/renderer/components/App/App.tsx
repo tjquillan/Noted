@@ -31,6 +31,12 @@ const useStyles = makeStyles(() =>
 export const NotebookProvider = createContext<Notebook | null>(null)
 export const NoteProvider = createContext<Note | null>(null)
 
+export type EditorActions = {
+  undo: () => void
+  redo: () => void
+  selectAll: () => void
+}
+
 export const App = (): JSX.Element => {
   const classes = useStyles()
 
@@ -59,9 +65,10 @@ export const App = (): JSX.Element => {
     [cache, note]
   )
 
-  const [editorActions, setEditorActions] = useState({
+  const [editorActions, setEditorActions] = useState<EditorActions>({
     undo: () => {},
-    redo: () => {}
+    redo: () => {},
+    selectAll: () => {}
   })
 
   let mainView = null

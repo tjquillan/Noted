@@ -7,7 +7,7 @@ import clsx from "clsx"
 import "overlayscrollbars/css/OverlayScrollbars.css"
 import { OverlayScrollbarsComponent } from "overlayscrollbars-react"
 
-import { NoteProvider } from "../App"
+import { NoteProvider, EditorActions } from "../App"
 import { Editor as CodeMirrorEditor } from "codemirror"
 import { useStyles } from "./style"
 import { ThemeProvider, ThemeContext } from "../ThemeProvider/ThemeProvider"
@@ -37,7 +37,7 @@ const EDITOR_OPTIONS = {
 }
 
 interface EditorProps {
-  setEditorActions: (editorActions: { undo: () => void; redo: () => void }) => void
+  setEditorActions: (editorActions: EditorActions) => void
 }
 
 export const Editor = (props: EditorProps): JSX.Element => {
@@ -95,7 +95,8 @@ export const Editor = (props: EditorProps): JSX.Element => {
     if (editor) {
       setEditorActions({
         undo: editor.undo,
-        redo: editor.redo
+        redo: editor.redo,
+        selectAll: () => editor.execCommand("selectAll")
       })
     }
   }, [editor, setEditorActions])
@@ -121,9 +122,9 @@ export const Editor = (props: EditorProps): JSX.Element => {
       { role: "delete" },
       { type: "separator" },
       { role: "selectAll" },
-      { type: "separator" },
       {
-        label: "Tags"
+        label: "Select All",
+        click: (): void => editor?.execCommand("selectAll")
       }
     ],
     [editor]

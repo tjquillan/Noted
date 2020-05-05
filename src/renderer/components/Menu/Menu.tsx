@@ -3,12 +3,12 @@ import { remote } from "electron"
 import { NewNotebookDialog } from "../NewNotebookDialog"
 import { NewNoteDialog } from "../NewNoteDialog"
 import { NotebookSelectDialog } from "../NotebookSelectDialog"
-import { NotebookProvider, NoteProvider } from "../App/App"
+import { NotebookProvider, NoteProvider, EditorActions } from "../App/App"
 import { ThemeProvider, ThemeContext } from "../ThemeProvider/ThemeProvider"
 import { ThemeIndex } from "../../theme/ThemeIndex"
 
 interface MenuProps {
-  editorActions: { undo: () => void; redo: () => void }
+  editorActions: EditorActions
   setNotebook: (notebook: string) => void
 }
 
@@ -87,7 +87,11 @@ export const Menu = (props: MenuProps): JSX.Element => {
           { role: "paste" },
           { role: "delete" },
           { type: "separator" },
-          { role: "selectAll" }
+          {
+            label: "Select All",
+            accelerator: "CmdOrCtrl+A",
+            click: props.editorActions.selectAll
+          }
         ]
       },
       {
@@ -137,7 +141,15 @@ export const Menu = (props: MenuProps): JSX.Element => {
     ])
 
     remote.Menu.setApplicationMenu(menu)
-  }, [note, notebook, props.editorActions.redo, props.editorActions.undo, selectedTheme.id, setSelectedTheme])
+  }, [
+    note,
+    notebook,
+    props.editorActions.redo,
+    props.editorActions.selectAll,
+    props.editorActions.undo,
+    selectedTheme.id,
+    setSelectedTheme
+  ])
 
   return (
     <>
