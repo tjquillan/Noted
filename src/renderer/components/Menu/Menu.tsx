@@ -153,7 +153,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
 
   return (
     <>
-      <NewNotebookDialog open={newNotebookOpen} setOpen={setNewNotebookOpen} />
+      <NewNotebookDialog open={newNotebookOpen} setOpen={setNewNotebookOpen} setNotebook={props.setNotebook} />
       {notebook ? <NewNoteDialog open={newNoteOpen} setOpen={setNewNoteOpen} /> : null}
       <NotebookSelectDialog onSelect={props.setNotebook} open={notebookSelectOpen} setOpen={setNotebookSelectOpen} />
     </>

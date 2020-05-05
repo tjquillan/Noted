@@ -33,8 +33,17 @@ export const NewNoteDialog = (props: NewNoteDialogProps): JSX.Element => {
     }
   }, [inputRef, notebook, onClose])
 
+  const onKeyPress = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === "Enter") {
+        onCreate()
+      }
+    },
+    [onCreate]
+  )
+
   return (
-    <Dialog open={props.open} onClose={onClose} aria-labelledby="form-dialog-title">
+    <Dialog open={props.open} onClose={onClose} onKeyPress={onKeyPress} aria-labelledby="form-dialog-title">
       <DialogTitle id="form-dialog-title">Create Note</DialogTitle>
       <DialogContent>
         <DialogContentText>Please enter the name of your new note.</DialogContentText>
