@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useContext, useState } from "react"
+import React, { useEffect, useRef, useContext, useState, useMemo } from "react"
 
 import * as VickyMD from "vickymd/core"
 
@@ -12,8 +12,9 @@ import { Editor as CodeMirrorEditor } from "codemirror"
 import { useStyles } from "./style"
 import { ThemeProvider, ThemeContext } from "../ThemeProvider/ThemeProvider"
 import { useEmojiHint, useCommandHint } from "./hints"
-import { remote } from "electron"
+import { remote, MenuItemConstructorOptions } from "electron"
 import { Box, Typography } from "@material-ui/core"
+import { ContextMenuArea } from "../ContextMenuArea"
 
 interface CursorPosition {
   ch: number
@@ -35,10 +36,15 @@ const EDITOR_OPTIONS = {
   }
 }
 
-export const Editor = (): JSX.Element => {
+interface EditorProps {
+  setEditorActions: (editorActions: { undo: () => void; redo: () => void }) => void
+}
+
+export const Editor = (props: EditorProps): JSX.Element => {
   const [theme] = useContext(ThemeProvider) as ThemeContext
   const note = useContext(NoteProvider)
   const textAreaRef = useRef<HTMLTextAreaElement>(null)
+  const scrollAreaRef = useRef<OverlayScrollbarsComponent>(null)
   const [loading, setLoading] = useState(true)
   const [editor, setEditor] = useState<CodeMirrorEditor | null>(null)
   const [cursorPosition, setCursorPosition] = useState<CursorPosition>({
@@ -48,6 +54,7 @@ export const Editor = (): JSX.Element => {
 
   const classes = useStyles()
 
+  // Initilize Editor
   useEffect(() => {
     if (textAreaRef.current) {
       const editor = VickyMD.fromTextArea(textAreaRef.current, {
@@ -81,6 +88,46 @@ export const Editor = (): JSX.Element => {
     }
     return
   }, [])
+
+  // Set editor actions for Menu
+  const setEditorActions = props.setEditorActions
+  useEffect(() => {
+    if (editor) {
+      setEditorActions({
+        undo: editor.undo,
+        redo: editor.redo
+      })
+    }
+  }, [editor, setEditorActions])
+
+  const contextMenu = useMemo<Array<MenuItemConstructorOptions>>(
+    () => [
+      {
+        label: "Undo",
+        click: (): void => {
+          editor?.undo()
+        }
+      },
+      {
+        label: "Redo",
+        click: (): void => {
+          editor?.redo()
+        }
+      },
+      { type: "separator" },
+      { role: "cut" },
+      { role: "copy" },
+      { role: "paste" },
+      { role: "delete" },
+      { type: "separator" },
+      { role: "selectAll" },
+      { type: "separator" },
+      {
+        label: "Tags"
+      }
+    ],
+    [editor]
+  )
 
   useEffect(() => {
     // Load note contents into editor
@@ -124,24 +171,27 @@ export const Editor = (): JSX.Element => {
 
   return (
     <Box className={classes.editorPanel}>
-      <OverlayScrollbarsComponent
-        className={theme.scrollTheme}
-        options={{
-          sizeAutoCapable: false,
-          scrollbars: {
-            autoHide: "scroll",
-            autoHideDelay: 400
-          }
-        }}
-        style={{ height: "100%" }}
-      >
-        <Box
-          className={clsx(classes.editorWrapper, "os-host-flexbox")}
-          style={{ visibility: loading ? "hidden" : undefined }}
+      <ContextMenuArea menuTemplate={contextMenu} style={{ height: "100%" }}>
+        <OverlayScrollbarsComponent
+          className={theme.scrollTheme}
+          options={{
+            sizeAutoCapable: false,
+            scrollbars: {
+              autoHide: "scroll",
+              autoHideDelay: 400
+            }
+          }}
+          style={{ height: "100%" }}
+          ref={scrollAreaRef}
         >
-          <textarea className={classes.editor} ref={textAreaRef} />
-        </Box>
-      </OverlayScrollbarsComponent>
+          <Box
+            className={clsx(classes.editorWrapper, "os-host-flexbox")}
+            style={{ visibility: loading ? "hidden" : undefined }}
+          >
+            <textarea className={classes.editor} ref={textAreaRef} />
+          </Box>
+        </OverlayScrollbarsComponent>
+      </ContextMenuArea>
       <Box className={classes.bottomPanel}>
         <Box className={classes.row}>
           <Typography variant={"caption"} color={"textPrimary"}>

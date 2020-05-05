@@ -59,13 +59,18 @@ export const App = (): JSX.Element => {
     [cache, note]
   )
 
+  const [editorActions, setEditorActions] = useState({
+    undo: () => {},
+    redo: () => {}
+  })
+
   let mainView = null
   if (notebook) {
     mainView = (
       <Box className={classes.mainPanel}>
         <Sidebar setNote={setNote} />
         <div className={classes.editorPanel} hidden={!note}>
-          <Editor />
+          <Editor setEditorActions={setEditorActions} />
         </div>
       </Box>
     )
@@ -78,7 +83,7 @@ export const App = (): JSX.Element => {
       <CssBaseline />
       <NotebookProvider.Provider value={notebook}>
         <NoteProvider.Provider value={note}>
-          <Menu setNotebook={setNotebook} />
+          <Menu editorActions={editorActions} setNotebook={setNotebook} />
           {mainView}
         </NoteProvider.Provider>
       </NotebookProvider.Provider>

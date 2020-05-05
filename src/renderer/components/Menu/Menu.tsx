@@ -8,6 +8,7 @@ import { ThemeProvider, ThemeContext } from "../ThemeProvider/ThemeProvider"
 import { ThemeIndex } from "../../theme/ThemeIndex"
 
 interface MenuProps {
+  editorActions: { undo: () => void; redo: () => void }
   setNotebook: (notebook: string) => void
 }
 
@@ -70,8 +71,16 @@ export const Menu = (props: MenuProps): JSX.Element => {
       {
         label: "Edit",
         submenu: [
-          { role: "undo" },
-          { role: "redo" },
+          {
+            label: "Undo",
+            accelerator: "CmdOrCtrl+Z",
+            click: props.editorActions.undo
+          },
+          {
+            label: "Redo",
+            accelerator: "CmdOrCtrl+Shift+Z",
+            click: props.editorActions.redo
+          },
           { type: "separator" },
           { role: "cut" },
           { role: "copy" },
@@ -128,7 +137,7 @@ export const Menu = (props: MenuProps): JSX.Element => {
     ])
 
     remote.Menu.setApplicationMenu(menu)
-  }, [note, notebook, selectedTheme.id, setSelectedTheme])
+  }, [note, notebook, props.editorActions.redo, props.editorActions.undo, selectedTheme.id, setSelectedTheme])
 
   return (
     <>

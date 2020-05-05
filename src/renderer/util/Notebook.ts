@@ -7,8 +7,9 @@ import { Note } from "./Note"
 type WatcherHook = (path: string) => void
 
 interface WatcherHooks {
-  add?: Array<WatcherHook>
-  change?: Array<WatcherHook>
+  add: Set<WatcherHook>
+  unlink: Set<WatcherHook>
+  change: Set<WatcherHook>
 }
 
 interface Tags {
@@ -23,7 +24,7 @@ export class Notebook {
   private notes: Array<string> = []
   private tags: Tags
   private readonly notesWatcher: fs.FSWatcher
-  private readonly notesHooks: WatcherHooks = { add: [] }
+  private readonly notesHooks: WatcherHooks = { add: new Set(), unlink: new Set(), change: new Set() }
 
   static getNotebooks(): Array<string> {
     const notebooksHome = getNotebooksHome()
@@ -50,12 +51,20 @@ export class Notebook {
     })
     this.notesWatcher.on("add", (path: string) => {
       this.indexNotes()
-      this.notesHooks.add?.map(async (hook) => hook(path))
+      this.notesHooks.add.forEach(async (hook) => hook(path))
+    })
+    this.notesWatcher.on("unlink", (path: string) => {
+      this.indexNotes()
+      this.notesHooks.unlink.forEach(async (hook) => hook(path))
     })
   }
 
   public createNote(name: string): void {
     fs.promises.writeFile(path.join(this.path, `${name}.md`), "")
+  }
+
+  public deleteNote(name: string): void {
+    fs.promises.unlink(path.join(this.path, `${name}.md`))
   }
 
   public getNotes(): Array<string> {
@@ -96,8 +105,12 @@ export class Notebook {
     return this.tags
   }
 
-  public addNotesHook(event: "add", hook: WatcherHook): void {
-    this.notesHooks[event]?.push(hook)
+  public addNotesHook(event: "add" | "unlink" | "change", hook: WatcherHook): void {
+    this.notesHooks[event].add(hook)
+  }
+
+  public removeNotesHook(event: "add" | "unlink" | "change", hook: WatcherHook): void {
+    this.notesHooks[event].delete(hook)
   }
 
   private indexNotes(): void {

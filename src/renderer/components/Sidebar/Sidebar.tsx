@@ -7,6 +7,8 @@ import { Notebook } from "../../util/Notebook"
 import { Note } from "../../util/Note"
 import { Drawer, Chip } from "@material-ui/core"
 import { Cache } from "../../util/Cache"
+import { ContextMenuTreeItem } from "./ContextMenuTreeItem"
+import { MenuItemConstructorOptions } from "electron"
 
 const drawerWidth = "175px"
 const useStyles = makeStyles((theme) =>
@@ -23,20 +25,6 @@ const useStyles = makeStyles((theme) =>
     }
   })
 )
-
-type icon =
-  | { icon: JSX.Element }
-  | {
-      expandIcon: JSX.Element
-      collapseIcon: JSX.Element
-    }
-
-function renderTree(items: Array<string>, icon?: icon, isNotes?: boolean): Array<JSX.Element> {
-  return items.map<JSX.Element>((item: string) => (
-    <TreeItem key={item} nodeId={`${isNotes ? "note-" : ""}${item}`} label={item} {...icon} />
-  ))
-}
-
 interface SidebarProps {
   setNote: (note: Note) => void
 }
@@ -45,14 +33,44 @@ export const Sidebar = ({ setNote }: SidebarProps): JSX.Element => {
   // This component wont render if the context is null so we can safely cast it
   const notebook = useContext(NotebookProvider) as Notebook
 
-  const getNotes = useCallback(() => renderTree(notebook.getNotes(), { icon: <Description /> }, true), [notebook])
+  const renderNotes = useCallback(() => {
+    return notebook.getNotes().map((item: string) => {
+      const menuTemplate: Array<MenuItemConstructorOptions> = [
+        {
+          label: "Delete",
+          click: (): void => {
+            notebook.deleteNote(item)
+          }
+        }
+      ]
 
-  const [notes, setNotes] = useState<Array<JSX.Element>>(getNotes())
+      return (
+        <ContextMenuTreeItem
+          key={item}
+          nodeId={`note-${item}`}
+          label={item}
+          icon={<Description />}
+          menuTemplate={menuTemplate}
+        />
+      )
+    })
+  }, [notebook])
+
+  const [notes, setNotes] = useState<Array<JSX.Element>>(renderNotes())
 
   useEffect(() => {
-    setNotes(getNotes())
-    notebook.addNotesHook("add", () => setNotes(getNotes()))
-  }, [getNotes, notebook])
+    setNotes(renderNotes())
+
+    const onNotesChange = (): void => setNotes(renderNotes())
+
+    notebook.addNotesHook("add", onNotesChange)
+    notebook.addNotesHook("unlink", onNotesChange)
+
+    return (): void => {
+      notebook.removeNotesHook("add", onNotesChange)
+      notebook.removeNotesHook("unlink", onNotesChange)
+    }
+  }, [notebook, renderNotes])
 
   const defaultNote = useMemo(() => Cache.getInstance().getCurrentNote(), [])
   const [selected, setSelected] = useState<Array<string>>(defaultNote ? [`note-${defaultNote}`] : [])
@@ -101,8 +119,7 @@ export const Sidebar = ({ setNote }: SidebarProps): JSX.Element => {
         <TreeItem nodeId="notes" label="Notes">
           {notes}
         </TreeItem>
-        {/* <TreeItem nodeId="tags" label="Tags">
-          </TreeItem> */}
+        {/* <TreeItem nodeId="tags" label="Tags" menuTemplate={[]} /> */}
       </TreeView>
     </Drawer>
   )
