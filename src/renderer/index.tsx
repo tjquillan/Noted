@@ -6,6 +6,8 @@ import "./index.css"
 
 import "./editor"
 
+import "@mdi/font/css/materialdesignicons.min.css"
+
 // Enable Hot Module Replacement
 // See: https://webpack.electron.build/development#hot-module-replacement
 if (module.hot) {

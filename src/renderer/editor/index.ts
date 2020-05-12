@@ -1,7 +1,6 @@
 // Import VickyMD related modules
 import "codemirror"
 import "codemirror/lib/codemirror.css"
-import "codemirror/addon/hint/show-hint.css"
 import "codemirror/addon/dialog/dialog.css"
 import "codemirror/mode/htmlmixed/htmlmixed" // for embedded HTML
 import "codemirror/mode/markdown/markdown"
@@ -15,6 +14,7 @@ import "codemirror/addon/hint/show-hint"
 import "vickymd"
 import "./powerpack/fold-code-with-mermaid"
 import "./powerpack/fold-code-with-echarts"
+// import "./powerpack/fold-code-with-prism" // This folder is WIP
 import "vickymd/powerpack/hover-with-marked"
 import "./powerpack/fold-math-with-katex"
 import "./powerpack/fold-emoji-with-joypixels"
