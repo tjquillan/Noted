@@ -135,6 +135,7 @@ export function useCommandHint(editor: Editor | null): void {
 `,
         command: "/table",
         description: "Insert Table",
+        icon: "mdi-table",
         render
       }
     ],
@@ -281,5 +282,5 @@ export function useEmojiHint(editor: Editor | null): void {
     return (): void => {
       editor.off("change", onChange)
     }
-  }, [editor])
+  }, [commands, editor])
 }
