@@ -53,7 +53,7 @@
     "afterAllArtifactBuild": "./build/afterAllArtifactBuildHook.js"
   },
   "scripts": {
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "electron-builder install-app-deps && yarn deduplicate",
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
     "dist": "yarn compile && electron-builder",
