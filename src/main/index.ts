@@ -11,9 +11,6 @@ if (module.hot) {
   module.hot.accept()
 }
 
-// See https://github.com/electron/electron/issues/18397
-app.allowRendererProcessReuse = true
-
 // global reference to mainWindow (necessary to prevent window from being garbage collected)
 let mainWindow: BrowserWindow | null
 
@@ -21,7 +18,8 @@ function createMainWindow(): BrowserWindow {
   const window = new BrowserWindow({
     title: "Noted",
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   })
 
