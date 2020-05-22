@@ -3,7 +3,6 @@
     "@material-ui/core",
     "@material-ui/icons",
     "@material-ui/lab",
-    "chokidar",
     "clsx",
     "codemirror",
     "echarts",
