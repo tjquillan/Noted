@@ -130,12 +130,12 @@ export const Menu = (props: MenuProps): JSX.Element => {
           },
           ...(isMac
             ? [
-                { type: "separator" as "separator" },
-                { role: "front" as "front" },
-                { type: "separator" as "separator" },
-                { role: "window" as "window" }
+                { type: "separator" as const },
+                { role: "front" as const },
+                { type: "separator" as const },
+                { role: "window" as const }
               ]
-            : [{ role: "close" as "close" }])
+            : [{ role: "close" as const }])
         ]
       }
     ])

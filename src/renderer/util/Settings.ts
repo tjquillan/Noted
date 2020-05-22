@@ -3,7 +3,7 @@ import Store from "electron-store"
 
 const SCHEMA = {
   theme: {
-    type: "string" as "string"
+    type: "string" as const
   }
 }
 

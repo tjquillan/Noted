@@ -3,10 +3,10 @@ import { getCacheHome } from "./paths"
 
 const SCHEMA = {
   currentNotebook: {
-    type: "string" as "string"
+    type: "string" as const
   },
   currentNote: {
-    type: "string" as "string"
+    type: "string" as const
   }
 }
 

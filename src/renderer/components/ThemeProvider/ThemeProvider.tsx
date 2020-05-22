@@ -7,7 +7,7 @@ export type ThemeContext = [Theme, (theme: Theme) => void]
 
 export const ThemeProvider = createContext<ThemeContext | null>(null)
 
-export const ThemeManager = (props: PropsWithChildren<{}>): JSX.Element => {
+export const ThemeManager = (props: PropsWithChildren<Record<string, unknown>>): JSX.Element => {
   const [theme, setTheme] = useTheme()
 
   return (

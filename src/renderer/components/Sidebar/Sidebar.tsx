@@ -76,7 +76,7 @@ export const Sidebar = ({ setNote }: SidebarProps): JSX.Element => {
   const [selected, setSelected] = useState<Array<string>>(defaultNote ? [`note-${defaultNote}`] : [])
 
   const onSelect = useCallback(
-    (event: React.ChangeEvent<{}>, nodeIds: string[] | string) => {
+    (event: React.ChangeEvent<Record<string, unknown>>, nodeIds: string[] | string) => {
       // As we dont have multiSelect enabled according to the API this will be a string
       // so we cast as the types dont represent this
       // See: https://material-ui.com/api/tree-view/
