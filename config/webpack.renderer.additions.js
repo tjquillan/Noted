@@ -22,11 +22,11 @@ const config = (config) => {
           {
             from: path.join(process.cwd(), "node_modules", "emoji-assets", "png"),
             to: "emoji"
-          },
-          {
-            from: path.join(process.cwd(), "node_modules", "prismjs", "components"),
-            to: "prismjs"
           }
+          // {
+          //   from: path.join(process.cwd(), "node_modules", "prismjs", "components"),
+          //   to: "prismjs"
+          // }
         ]
       })
     )
