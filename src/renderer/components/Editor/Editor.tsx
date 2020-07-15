@@ -127,7 +127,7 @@ export const Editor = (props: EditorProps): JSX.Element => {
         click: (): void => editor?.execCommand("selectAll")
       }
     ],
-    [editor?.execCommand, editor?.redo, editor?.undo]
+    [editor]
   )
 
   useEffect(() => {
@@ -159,18 +159,7 @@ export const Editor = (props: EditorProps): JSX.Element => {
       editor?.off("change", setValue)
       win.off("close", onClose)
     }
-  }, [
-    editor,
-    editor?.clearHistory,
-    editor?.focus,
-    editor?.off,
-    editor?.on,
-    editor?.setValue,
-    note,
-    note?.getCurrentFileContents,
-    note?.save,
-    note?.setBufferedContents
-  ])
+  }, [editor, note])
 
   useEffect(() => {
     if (editor) {

@@ -62,7 +62,7 @@ export const App = (): JSX.Element => {
       setNoteState(newNote)
       cache.setCurrentNote(newNote.name)
     },
-    [cache, note?.save]
+    [cache, note]
   )
 
   const [editorActions, setEditorActions] = useState<EditorActions>({
