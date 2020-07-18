@@ -82,7 +82,7 @@ export const App = (): JSX.Element => {
       </Box>
     )
   } else {
-    mainView = <text>Please Open A Notebook</text>
+    mainView = <span>Please Open A Notebook</span>
   }
 
   return (
