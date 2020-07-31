@@ -1,20 +1,13 @@
 import { ThemeName } from "vickymd/theme"
 import Store from "electron-store"
 
-const SCHEMA = {
-  theme: {
-    type: "string" as const
-  }
-}
-
 export class Settings {
   private static instance: Settings
-  private readonly store: Store
+  private readonly store: Store<Record<string, string>>
 
   private constructor() {
     this.store = new Store({
-      name: "settings",
-      schema: SCHEMA
+      name: "settings"
     })
   }
 
@@ -27,7 +20,7 @@ export class Settings {
   }
 
   public getTheme(): ThemeName {
-    return this.store.get("theme", "one-dark")
+    return this.store.get("theme", "one-dark") as ThemeName
   }
 
   public setTheme(theme: ThemeName): void {

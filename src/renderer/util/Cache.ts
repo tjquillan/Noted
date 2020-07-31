@@ -1,24 +1,14 @@
 import Store from "electron-store"
 import { getCacheHome } from "./paths"
 
-const SCHEMA = {
-  currentNotebook: {
-    type: "string" as const
-  },
-  currentNote: {
-    type: "string" as const
-  }
-}
-
 export class Cache {
   private static instance: Cache
-  private readonly store: Store
+  private readonly store: Store<Record<string, string>>
 
   private constructor() {
     this.store = new Store({
       name: "cache",
-      cwd: getCacheHome(),
-      schema: SCHEMA
+      cwd: getCacheHome()
     })
   }
 

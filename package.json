@@ -58,14 +58,14 @@
     "compile": "electron-webpack",
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
-    "lint": "eslint --ext .ts --ext .tsx --ext .js ./src --fix",
+    "lint": "tsc --project ./tsconfig.json --noEmit; eslint --ext .ts --ext .tsx --ext .js ./src --fix",
     "format": "prettier --write src",
     "index": "cti ./src/renderer/components/*/",
     "deduplicate": "yarn-deduplicate yarn.lock"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,md,html,css}": "prettier --write",
-    "*.{js,jsx,ts,tsx}": "eslint --fix"
+    "*.{js,jsx,ts,tsx}": ["eslint --fix"]
   },
   "husky": {
     "hooks": {
@@ -73,7 +73,7 @@
     }
   },
   "dependencies": {
-    "@mdi/font": "5.3.45",
+    "@mdi/font": "5.4.55",
     "chokidar": "3.4.1",
     "platform-folders": "0.5.1",
     "prismjs": "1.20.0",
@@ -86,7 +86,7 @@
     "@material-ui/icons": "4.9.1",
     "@material-ui/lab": "4.0.0-alpha.56",
     "@types/codemirror": "0.0.97",
-    "@types/echarts": "4.6.3",
+    "@types/echarts": "4.6.4",
     "@types/katex": "0.11.0",
     "@types/markdown-it": "10.0.1",
     "@types/mermaid": "8.2.1",
@@ -96,17 +96,17 @@
     "@types/react": "16.9.43",
     "@types/react-dom": "16.9.8",
     "@types/yamljs": "0.2.31",
-    "@typescript-eslint/eslint-plugin": "3.6.1",
-    "@typescript-eslint/parser": "3.6.1",
+    "@typescript-eslint/eslint-plugin": "3.7.1",
+    "@typescript-eslint/parser": "3.7.1",
     "clsx": "1.1.1",
-    "codemirror": "5.55.0",
+    "codemirror": "5.56.0",
     "copy-webpack-plugin": "6.0.3",
     "create-ts-index": "1.13.3",
     "echarts": "4.8.0",
-    "electron": "9.1.0",
-    "electron-builder": "22.7.0",
+    "electron": "9.1.2",
+    "electron-builder": "22.8.0",
     "electron-store": "6.0.0",
-    "electron-updater": "4.3.1",
+    "electron-updater": "4.3.4",
     "electron-webpack": "2.8.2",
     "electron-webpack-eslint": "6.0.0",
     "electron-webpack-ts": "4.0.1",
@@ -116,13 +116,13 @@
     "eslint-config-prettier": "6.11.0",
     "eslint-loader": "4.0.2",
     "eslint-plugin-prettier": "3.1.4",
-    "eslint-plugin-react": "7.20.3",
+    "eslint-plugin-react": "7.20.5",
     "eslint-plugin-react-hooks": "4.0.8",
     "husky": "4.2.5",
     "katex": "0.12.0",
     "lint-staged": "10.2.11",
     "marked": "1.1.1",
-    "mermaid": "8.6.0",
+    "mermaid": "8.6.4",
     "node-sass": "4.14.1",
     "overlayscrollbars": "1.12.0",
     "overlayscrollbars-react": "0.2.2",
@@ -134,7 +134,7 @@
     "sass-loader": "9.0.2",
     "typescript": "3.9.7",
     "vickymd": "0.2.5",
-    "webpack": "4.43.0",
+    "webpack": "4.44.1",
     "yamljs": "0.3.0",
     "yarn-deduplicate": "2.1.1"
   }
