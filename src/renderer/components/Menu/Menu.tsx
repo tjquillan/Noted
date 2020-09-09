@@ -143,7 +143,6 @@ export const Menu = (props: MenuProps): JSX.Element => {
     remote.Menu.setApplicationMenu(menu)
   }, [
     note,
-    note?.save,
     notebook,
     props.editorActions.redo,
     props.editorActions.selectAll,
