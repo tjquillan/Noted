@@ -21,7 +21,7 @@ export class Cache {
   }
 
   public getCurrentNotebook(): string | null {
-    return this.store.get("currentNotebook", null)
+    return this.store.get("currentNotebook") || null
   }
 
   public setCurrentNotebook(currentNotebook: string): void {
@@ -31,7 +31,7 @@ export class Cache {
   }
 
   public getCurrentNote(): string | null {
-    return this.store.get("currentNote", null)
+    return this.store.get("currentNote") || null
   }
 
   public setCurrentNote(currentNote: string): void {
